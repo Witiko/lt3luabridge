@@ -39,7 +39,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install dependencies
-        run: apt install -qy pdftotext
+        run: |
+          set -e
+          apt-get -qy update
+          apt-get -qy install --no-install-recommends poppler-utils
       - name: Compile example document
         run: ${{ matrix.command }}
       - name: Extract text of the example document
