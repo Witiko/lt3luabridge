@@ -1,0 +1,48 @@
+name: test & publish
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 4 * * MON'
+env:
+  DEBIAN_FRONTEND: noninteractive
+jobs:
+  markdownlint:
+    name: Run MarkdownLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Run MarkdownLint
+        uses: nosborn/github-action-markdown-cli@v2.0.0
+  test:
+    name: Compile example document
+    needs:
+      - markdownlint
+    strategy:
+      fail-fast: true
+      matrix:
+        texlive:
+          - texexec  --passon="--shell-escape --8bit --interaction=nonstopmode"
+          - context                                              --nonstopmode
+          - pdflatex --shell-escape                  --interaction=nonstopmode
+          - xelatex  --shell-escape --8bit           --interaction=nonstopmode
+          - lualatex                                 --interaction=nonstopmode
+          - pdftex   --shell-escape                  --interaction=nonstopmode
+          - xetex    --shell-escape --8bit           --interaction=nonstopmode
+          - luatex                                   --interaction=nonstopmode
+    runs-on: ubuntu-latest
+    container:
+      image: texlive/texlive:latest-with-cache
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: apt install -qy pdftotext
+      - name: Compile example document
+        run: ${{ matrix.command }}
+      - name: Extract text of the example document
+        run: pdftotext example.pdf
+      - name: Check the text of the example document
+        run: echo $(cat example.txt) | grep '^\s*1+2=3\s*$'
