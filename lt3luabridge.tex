@@ -10,8 +10,7 @@
   {
     \int_new:N
       \g__luabridge_method_int
-    \cs_if_exist:NTF
-      \directlua
+    \sys_if_engine_luatex:TF
       {
         \int_gset_eq:NN
           \g__luabridge_method_int
@@ -125,7 +124,7 @@
                 \int_gset:Nn
                   \g__luabridge_level_int
                   {
-                    \directlua
+                    \lua_now:n
                       {
                         tex.sprint(status.shell_escape or "1")
                       }
@@ -233,10 +232,10 @@
               \_luabridge_execute_shell:n
               {
                 \_luabridge_assert_shell_escape:
-                \directlua
+                \lua_now:e
                   {
                     os.execute(
-                      " \luaescapestring { #1 } "
+                      " \lua_escape:e { #1 } "
                     )
                   }
               }
@@ -387,7 +386,7 @@
     \cs_new:Nn
       \_luabridge_execute:n
       {
-        \directlua
+        \lua_now:e
           {
             local~function~print(input)~
               input~=~tostring(input)~
