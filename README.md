@@ -3,7 +3,7 @@
 l3luabridge is an [expl3][1] package for plain TeX and LaTeX that allows you to
 execute Lua code in LuaTeX or any TeX engine that exposes the shell:
 
-```
+``` tex
 \documentclass{standalone}
 \usepackage{l3luabridge}
 \begin{document}
