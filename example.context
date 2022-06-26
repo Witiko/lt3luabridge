@@ -1,4 +1,4 @@
-\usemodule[t][l3luabridge]
+\usemodule[t][lt3luabridge]
 \starttext
 $ 1 + 2 = \luabridgeExecute{ print(1 + 2) } $
 \stoptext
