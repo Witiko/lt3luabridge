@@ -4,8 +4,8 @@
  [![ci](https://github.com/witiko/l3luabridge/actions/workflows/main.yml/badge.svg)][4]
 
 l3luabridge is an [expl3][1] package for plain TeX, LaTeX, and ConTeXt that
-allows you to execute Lua code in LuaTeX or any TeX engine that exposes the
-shell:
+allows you to execute Lua code in LuaTeX or any other TeX engine that exposes
+the shell:
 
 ``` tex
 \documentclass{standalone}
