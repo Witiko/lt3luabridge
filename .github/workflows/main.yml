@@ -24,14 +24,14 @@ jobs:
       fail-fast: true
       matrix:
         texlive:
-          - texexec  --passon="--shell-escape --8bit --interaction=nonstopmode"
-          - context                                              --nonstopmode
-          - pdflatex --shell-escape                  --interaction=nonstopmode
-          - xelatex  --shell-escape --8bit           --interaction=nonstopmode
-          - lualatex                                 --interaction=nonstopmode
-          - pdftex   --shell-escape                  --interaction=nonstopmode
-          - xetex    --shell-escape --8bit           --interaction=nonstopmode
-          - luatex                                   --interaction=nonstopmode
+          - texexec  --passon="--shell-escape --8bit --interaction=nonstopmode" example.context
+          - context                                              --nonstopmode  example.context
+          - pdflatex --shell-escape                  --interaction=nonstopmode  example.latex
+          - xelatex  --shell-escape --8bit           --interaction=nonstopmode  example.latex
+          - lualatex                                 --interaction=nonstopmode  example.latex
+          - pdftex   --shell-escape                  --interaction=nonstopmode  example.plaintex
+          - xetex    --shell-escape --8bit           --interaction=nonstopmode  example.plaintex
+          - luatex                                   --interaction=nonstopmode  example.plaintex
     runs-on: ubuntu-latest
     container:
       image: texlive/texlive:latest-with-cache
@@ -45,4 +45,4 @@ jobs:
       - name: Extract text of the example document
         run: pdftotext example.pdf
       - name: Check the text of the example document
-        run: echo $(cat example.txt) | grep '^\s*1+2=3\s*$'
+        run: grep '1+2=3' example.txt
