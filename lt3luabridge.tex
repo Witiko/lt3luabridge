@@ -70,10 +70,13 @@
       }
   }
   {
-    \msg_error:nnx
+    \cs_generate_variant:Nn
+      \msg_error:nnn
+      { nnV }
+    \msg_error:nnV
       { luabridge }
       { unknown-method }
-      { \g__luabridge_method_int }
+      \g__luabridge_method_int
   }
 \bool_if:nTF
   {
