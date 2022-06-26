@@ -54,8 +54,9 @@
 % \begin{documentation}
 %
 % The \pkg{lt3luabridge} expl3~\cite{expl3} package provides support for
-% executing Lua code in Lua\TeX or any other \TeX engine that exposes the shell.
-% The package provides interfaces to plain \TeX, \LaTeX, and \Hologo{ConTeXt}
+% executing Lua code in Lua\TeX{} or any other \TeX{} engine that exposes the
+% shell. The package provides interfaces to plain \TeX, \LaTeX, and
+% \Hologo{ConTeXt}
 % formats:
 % \begin{verbatim}
 % \documentclass{standalone}
@@ -88,7 +89,7 @@
 %   converting line ends to spaces in the usual \TeX{} manner and which
 %   respects currently-applicable \TeX{} category codes. The resulting
 %   \meta{\Lua{} input} is passed to the \Lua{} interpreter for processing.
-%   Each \cs{lua_now:n} block is treated by \Lua{} as a separate chunk.
+%   Each \cs{luabridge_now:n} block is treated by \Lua{} as a separate chunk.
 %   The \Lua{} interpreter executes the \meta{\Lua{} input} immediately,
 %   and in an expandable manner.
 %
@@ -99,7 +100,7 @@
 % \section{Setting and getting the method to execute Lua code}
 %
 % There are several methods that can be used to execute Lua code. This section
-% describes the public interface that can be used to set the preferred method
+% describes the interface that the package provides to set the preferred method
 % or to determine which method was used.
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_method_int}
@@ -107,7 +108,7 @@
 %   The variable is set automatically when the package is loaded
 %   and changing the value of the variable afterwards has no effect.
 %   However, we can set the value of the variable before loading the
-%   package to one of the values below.
+%   package to one of the constants described below.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_method_write_eighteen_int}
@@ -115,7 +116,7 @@
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_method_os_execute_int}
-%   Use shell escape through the \texttt{os.execute()} Lua method to execute Lua code.
+%   Use shell escape through the |os.execute()| Lua method to execute Lua code.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_method_directlua_int}
@@ -130,14 +131,14 @@
 % used to execute Lua code.
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_output_dirname_str}
-%   This variable controls the output directory, which will store the helper
+%   This variable controls the output directory that will store the helper
 %   files. The variable should be set to the same value as the
 %   \texttt{-output-directory} parameter of the \TeX{} engine.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_default_output_dirname_str}
-%   This constant contains the default value of the
-%   \cs{g_luabridge_output_dirname_str} variable.
+%   This constant contains the default value of
+%   \cs{g_luabridge_output_dirname_str}.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_helper_script_filename_str}
@@ -146,18 +147,18 @@
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_default_helper_script_filename_str}
-%   This constant contains the default value of the
-%   \cs{g_luabridge_helper_script_filename_str} variable.
+%   This constant contains the default value of
+%   \cs{g_luabridge_helper_script_filename_str}.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_standard_output_filename_str}
 %   This variable controls the filename of a helper file that will contain the
-%   standard output produced by the \TeX{} Lua interpreter (if any).
+%   standard output produced by the |texlua| interpreter (if any).
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_default_standard_output_filename_str}
-%   This constant contains the default value of the
-%   \cs{g_luabridge_standard_output_filename_str} variable.
+%   This constant contains the default value of
+%   \cs{g_luabridge_standard_output_filename_str}.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_error_output_filename_str}
@@ -166,8 +167,8 @@
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_default_error_output_filename_str}
-%   This constant contains the default value of the
-%   \cs{g_luabridge_error_output_filename_str} variable.
+%   This constant contains the default value of
+%   \cs{g_luabridge_error_output_filename_str}.
 % \end{variable}
 %
 % \end{documentation}
