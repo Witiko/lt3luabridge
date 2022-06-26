@@ -1,0 +1,671 @@
+% \iffalse
+%<*driver>
+\documentclass[full]{l3doc}
+\usepackage{hologo}
+\begin{filecontents}[overwrite,nosearch,noheader]{\jobname.bib}
+
+@online{expl3,
+  title = {expl3},
+  subtitle = {Wrapper package for experimental \LaTeX3},
+  author = {{The \LaTeX{} Team}},
+  publisher = {{CTAN}},
+  date = {2022-06-16},
+  urldate = {2022-06-26},
+  url = {https://ctan.org/pkg/expl3},
+}
+
+@online{markdown,
+  title = {Markdown},
+  subtitle = {A package for converting and rendering markdown documents inside \TeX},
+  author = {Vít Novotný},
+  publisher = {{CTAN}},
+  date = {2022-05-31},
+  urldate = {2022-06-26},
+  url = {https://ctan.org/pkg/markdown},
+  note = {Version 2.15.2-0-gb238dbc},
+}
+
+\end{filecontents}
+\usepackage{biblatex}
+\addbibresource{\jobname.bib}
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \title{^^A
+%   The \textsf{lt3luabridge} package: Lua without Lua\TeX^^A
+% }
+%
+% \author{^^A
+%  Vít Novotný\thanks
+%    {^^A
+%      E-mail:
+%        \href{mailto:witiko@mail.muni.cz}
+%          {witiko@mail.muni.cz}^^A
+%    }^^A
+% }
+%
+% \date{Released 2022-06-26}
+%
+% \maketitle
+%
+% \begin{documentation}
+%
+% The \pkg{lt3luabridge} expl3~\cite{expl3} package provides support for
+% executing Lua code in Lua\TeX or any other \TeX engine that exposes the shell.
+% The package provides interfaces to plain \TeX, \LaTeX, and \Hologo{ConTeXt}
+% formats:
+% \begin{verbatim}
+% \documentclass{standalone}
+% \usepackage{l3luabridge}
+% \begin{document}
+% $ 1 + 2 = \luabridgeExecute{ print(1 + 2) } $
+% \end{document}
+% \end{verbatim}
+%
+% The package was previously part of the Markdown package for
+% \TeX~\cite{markdown}, where it has been battle-tested since 2016.
+% Since 2022, lt3luabridge has also been available as a separate package.
+%
+% \section{Loading the package}
+%
+% Use the |\input lt3luabridge\relax| command to load the package from plain \TeX,
+% use the |\usepackage{lt3luabridge}| command to load the package from \LaTeX, and
+% use the |\usemodule[t][lt3luabridge]| command to load the package from \Hologo{ConTeXt}.
+%
+% \section{Executing Lua code}
+%
+% The interface for executing Lua code closely mimics the \cs{lua_now:n}
+% function from the \pkg{l3luatex} package.
+%
+% \begin{function}[added = 2022-06-26]{\luabridge_now:n, \luabridge_now:e, \luabridgeExecute}
+%   \begin{syntax}
+%     \cs{luabridge_now:n} \Arg{token list}
+%   \end{syntax}
+%   The \meta{token list} is first tokenized by \TeX{}, which includes
+%   converting line ends to spaces in the usual \TeX{} manner and which
+%   respects currently-applicable \TeX{} category codes. The resulting
+%   \meta{\Lua{} input} is passed to the \Lua{} interpreter for processing.
+%   Each \cs{lua_now:n} block is treated by \Lua{} as a separate chunk.
+%   The \Lua{} interpreter executes the \meta{\Lua{} input} immediately,
+%   and in an expandable manner.
+%
+%   The \cs{luabridgeExecute} document command is an alias for
+%   \cs{luabridge_now:e}.
+% \end{function}
+%
+% \section{Setting and getting the method to execute Lua code}
+%
+% There are several methods that can be used to execute Lua code. This section
+% describes the public interface that can be used to set the preferred method
+% or to determine which method was used.
+%
+% \begin{variable}[added = 2022-06-26]{\g_luabridge_method_int}
+%   This variable controls the method used to execute Lua code.
+%   The variable is set automatically when the package is loaded
+%   and changing the value of the variable afterwards has no effect.
+%   However, we can set the value of the variable before loading the
+%   package to one of the values below.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\c_luabridge_method_write_eighteen_int}
+%   Use shell escape through the \cs{write18} \TeX{} command to execute Lua code.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\c_luabridge_method_os_execute_int}
+%   Use shell escape through the \texttt{os.execute()} Lua method to execute Lua code.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\c_luabridge_method_directlua_int}
+%   Use the \cs{directlua} primitive of Lua\TeX{} to execute Lua code.
+% \end{variable}
+%
+% \section{Setting and getting the filenames of helper files}
+%
+% When shell escape is used to execute Lua code, several helper files are
+% needed to shuffle around code and output. The following variables and
+% constants are undefined when the \cs{directlua} primitive of Lua\TeX{} is
+% used to execute Lua code.
+%
+% \begin{variable}[added = 2022-06-26]{\g_luabridge_output_dirname_str}
+%   This variable controls the output directory, which will store the helper
+%   files. The variable should be set to the same value as the
+%   \texttt{-output-directory} parameter of the \TeX{} engine.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\c_luabridge_default_output_dirname_str}
+%   This constant contains the default value of the
+%   \cs{g_luabridge_output_dirname_str} variable.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\g_luabridge_helper_script_filename_str}
+%   This variable controls the filename of a helper Lua script that will be
+%   executed from the shell using the \TeX{} Lua interpreter.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\c_luabridge_default_helper_script_filename_str}
+%   This constant contains the default value of the
+%   \cs{g_luabridge_helper_script_filename_str} variable.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\g_luabridge_standard_output_filename_str}
+%   This variable controls the filename of a helper file that will contain the
+%   standard output produced by the \TeX{} Lua interpreter (if any).
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\c_luabridge_default_standard_output_filename_str}
+%   This constant contains the default value of the
+%   \cs{g_luabridge_standard_output_filename_str} variable.
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\g_luabridge_error_output_filename_str}
+%   This variable controls the filename of a helper file that will contain the
+%   error output produced by the \TeX{} Lua interpreter (if any).
+% \end{variable}
+%
+% \begin{variable}[added = 2022-06-26]{\c_luabridge_default_error_output_filename_str}
+%   This constant contains the default value of the
+%   \cs{g_luabridge_error_output_filename_str} variable.
+% \end{variable}
+%
+% \end{documentation}
+%
+% \begin{implementation}
+%
+%    \begin{macrocode}
+%<@@=luabridge>
+%    \end{macrocode}
+%
+% \section{Plain \TeX{} implementation}
+%
+% This section contains the implementation for plain \TeX{} using generic expl3.
+%
+%    \begin{macrocode}
+%<*generic-package>
+\ifx\ExplSyntaxOn\undefined
+  \input expl3-generic\relax
+\fi
+\ExplSyntaxOn
+\int_const:Nn
+  \c_luabridge_method_write_eighteen_int
+  { 0 }
+\int_const:Nn
+  \c_luabridge_method_os_execute_int
+  { 1 }
+\int_const:Nn
+  \c_luabridge_method_directlua_int
+  { 2 }
+\int_if_exist:NF
+  \g_luabridge_method_int
+  {
+    \int_new:N
+      \g_luabridge_method_int
+    \sys_if_engine_luatex:TF
+      {
+        \int_gset_eq:NN
+          \g_luabridge_method_int
+          \c_luabridge_method_directlua_int
+      }
+      {
+        \int_gset_eq:NN
+          \g_luabridge_method_int
+          \c_luabridge_method_write_eighteen_int
+      }
+  }
+\msg_new:nnn
+  { luabridge }
+  { unknown-method }
+  {
+    Unknown~bridging~method:~#1
+  }
+\msg_new:nnn
+  { luabridge }
+  { method-write-eighteen }
+  {
+    Using~shell~escape~via~write18~as~the~bridging~method
+  }
+\msg_new:nnn
+  { luabridge }
+  { method-os-execute }
+  {
+    Using~shell~escape~via~os.execute()~as~the~bridging~method
+  }
+\msg_new:nnn
+  { luabridge }
+  { method-directlua }
+  {
+    Using~direct~Lua~access~as~the~bridging~method
+  }
+\int_case:nnF
+  { \g_luabridge_method_int }
+  {
+    { \c_luabridge_method_write_eighteen_int }
+      {
+        \msg_info:nn
+          { luabridge }
+          { method-write-eighteen }
+      }
+    { \c_luabridge_method_os_execute_int }
+      {
+        \msg_info:nn
+          { luabridge }
+          { method-os-execute }
+      }
+    { \c_luabridge_method_directlua_int }
+      {
+        \msg_info:nn
+          { luabridge }
+          { method-directlua }
+      }
+  }
+  {
+    \cs_generate_variant:Nn
+      \msg_error:nnn
+      { nnV }
+    \msg_error:nnV
+      { luabridge }
+      { unknown-method }
+      \g_luabridge_method_int
+  }
+\bool_if:nTF
+  {
+    \int_compare_p:nNn
+      { \g_luabridge_method_int }
+      =
+      { \c_luabridge_method_write_eighteen_int } ||
+    \int_compare_p:nNn
+      { \g_luabridge_method_int }
+      =
+      { \c_luabridge_method_os_execute_int }
+  }
+  {
+    \int_const:Nn
+      \c_@@_level_disabled_int
+      { 0 }
+    \int_const:Nn
+      \c_@@_level_enabled_int
+      { 1 }
+    \int_const:Nn
+      \c_@@_level_restricted_int
+      { 2 }
+    \int_new:N
+      \l_@@_level_int
+    \cs_if_exist:NTF
+      \pdfshellescape
+      {
+        \int_gset:Nn
+          \l_@@_level_int
+          { \pdfshellescape }
+      }
+      {
+        \cs_if_exist:NTF
+          \shellescape
+          {
+            \int_gset:Nn
+              \l_@@_level_int
+              { \shellescape }
+          }
+          {
+            \int_case:nnF
+              { \g_luabridge_method_int }
+              {
+                { \c_luabridge_method_write_eighteen_int }
+                  {
+                    \int_gset_eq:NN
+                      \l_@@_level_int
+                      \c_@@_level_enabled_int
+                  }
+              }
+              {
+                \int_gset:Nn
+                  \l_@@_level_int
+                  {
+                    \lua_now:n
+                      {
+                        tex.sprint(status.shell_escape or "1")
+                      }
+                  }
+              }
+          }
+      }
+    \msg_new:nnn
+      { luabridge }
+      { unknown-level }
+      {
+        Unknown~shell~escape~level:~#1
+      }
+    \msg_new:nnnn
+      { luabridge }
+      { level-disabled }
+      {
+        Shell~escape~seems~to~be~disabled
+      }
+      {
+        You~may~need~to~run~TeX~with~the~--shell-escape~or~the~
+        --enable-write18~flag,~or~write~shell_escape=t~in~the~
+        texmf.cnf~file.
+      }
+    \msg_new:nnn
+      { luabridge }
+      { level-enabled }
+      {
+        Shell~escape~seems~to~be~enabled
+      }
+    \msg_new:nnnn
+      { luabridge }
+      { level-restricted }
+      {
+        Shell~escape~seems~to~be~restricted
+      }
+      {
+        You~may~need~to~run~TeX~with~the~--shell-escape~or~the~
+        --enable-write18~flag,~or~write~shell_escape=t~in~the~
+        texmf.cnf~file.
+      }
+    \str_const:Nn
+      \c_luabridge_default_output_dirname_str
+      { . }
+    \str_const:Nx
+      \c_luabridge_default_helper_script_filename_str
+      { \jobname.luabridge.lua }
+    \str_const:Nx
+      \c_luabridge_default_error_output_filename_str
+      { \jobname.luabridge.err }
+    \str_const:Nx
+      \c_luabridge_default_standard_output_filename_str
+      { \jobname.luabridge.out }
+    \int_case:nnF
+      { \l_@@_level_int }
+      {
+        { \c_@@_level_disabled_int }
+          {
+            \msg_warning:nn
+              { luabridge }
+              { level-disabled }
+          }
+        { \c_@@_level_enabled_int }
+          {
+            \msg_info:nn
+              { luabridge }
+              { level-enabled }
+          }
+        { \c_@@_level_restricted_int }
+          {
+            \msg_warning:nn
+              { luabridge }
+              { level-restricted }
+          }
+      }
+      {
+        \msg_error:nnx
+          { luabridge }
+          { unknown-level }
+          { \l_@@_level_int }
+      }
+    \cs_new:Nn
+      \_luabridge_assert_shell_escape:
+      {
+        \int_case:nnF
+          { \l_@@_level_int }
+          {
+            { \c_@@_level_disabled_int }
+              {
+                \msg_error:nn
+                  { luabridge }
+                  { level-disabled }
+              }
+          }
+      }
+    \int_case:nn
+      { \g_luabridge_method_int }
+      {
+        { \c_luabridge_method_write_eighteen_int }
+          {
+            \cs_new:Nn
+              \_luabridge_execute_shell:n
+              {
+                \_luabridge_assert_shell_escape:
+                \immediate
+                  \write 18
+                    { #1 }
+              }
+          }
+        { \c_luabridge_method_os_execute_int }
+          {
+            \cs_new:Nn
+              \_luabridge_execute_shell:n
+              {
+                \_luabridge_assert_shell_escape:
+                \lua_now:e
+                  {
+                    os.execute(
+                      " \lua_escape:e { #1 } "
+                    )
+                  }
+              }
+          }
+      }
+    \str_if_exist:NF
+      \g_luabridge_output_dirname_str
+      {
+        \str_new:N
+          \g_luabridge_output_dirname_str
+        \tl_gset:Nn
+          \g_luabridge_output_dirname_str
+          \c_luabridge_default_output_dirname_str
+      }
+    \str_if_exist:NF
+      \g_luabridge_helper_script_filename_str
+      {
+        \str_gset_eq:NN
+          \g_luabridge_helper_script_filename_str
+          \c_luabridge_default_helper_script_filename_str
+      }
+    \str_if_exist:NF
+      \g_luabridge_error_output_filename_str
+      {
+        \str_gset_eq:NN
+          \g_luabridge_error_output_filename_str
+          \c_luabridge_default_error_output_filename_str
+      }
+    \str_if_exist:NF
+      \g_luabridge_standard_output_filename_str
+      {
+        \str_gset_eq:NN
+          \g_luabridge_standard_output_filename_str
+          \c_luabridge_default_standard_output_filename_str
+      }
+    \cs:w newwrite \cs_end:
+      \l_@@_output_stream
+    \cs_new:Nn
+      \luabridge_now:n
+      {
+        \immediate \openout
+          \l_@@_output_stream
+          \g_luabridge_helper_script_filename_str
+        \msg_info:nnV
+          { luabridge }
+          { writing-helper-script }
+          \g_luabridge_helper_script_filename_str
+        \tl_set:Nn
+          \l_tmpa_tl
+          { #1 }
+        \tl_set:Nx
+          \l_tmpb_tl
+          {
+            local~ran_ok,~error~=~pcall(function()~
+              local~ran_ok,~kpse~=~pcall(require,~"kpse")~
+              if~ran_ok~then~kpse.set_program_name("luatex")~end~
+              \exp_not:V \l_tmpa_tl~
+            end)~
+            if~not~ran_ok~then~
+              local~file~=~io.open("
+                \g_luabridge_output_dirname_str /
+                \g_luabridge_error_output_filename_str
+              ",~"w")~
+              if~file~then~
+                file:write(error~..~" \iow_char:N \\ n ")~
+                file:close()~
+              end~
+              print('
+                \iow_char:N \\ \iow_char:N \\ begingroup
+                  \iow_char:N \\ \iow_char:N \\ ExplSyntaxOn
+                  \iow_char:N \\ \iow_char:N \\ msg_error:nnvv
+                    { luabridge }
+                    { failed-to-execute }
+                    { g_luabridge_output_dirname_str }
+                    { g_luabridge_output_dirname_str }
+                \iow_char:N \\ \iow_char:N \\ endgroup
+              ')~
+            end
+          }
+        \immediate \write
+          \l_@@_output_stream
+          { \exp_not:V \l_tmpb_tl }
+        \immediate \closeout
+          \l_@@_output_stream
+        \msg_info:nnVV
+          { luabridge }
+          { executing-helper-script }
+          \g_luabridge_helper_script_filename_str
+          \g_luabridge_standard_output_filename_str
+        \tl_set:Nx
+          \l_tmpa_tl
+          {
+            texlua~"
+              \g_luabridge_output_dirname_str /
+              \g_luabridge_helper_script_filename_str
+            "~>~"
+              \g_luabridge_output_dirname_str /
+              \g_luabridge_standard_output_filename_str
+            "
+          }
+        \_luabridge_execute_shell:V
+          \l_tmpa_tl
+        \file_if_exist_input:VF
+          \g_luabridge_standard_output_filename_str
+          {
+            \msg_error:nn
+              { luabridge }
+              { level-disabled }
+          }
+      }
+    \cs_generate_variant:Nn
+      \msg_info:nnn
+      { nnV }
+    \cs_generate_variant:Nn
+      \msg_info:nnnn
+      { nnVV }
+    \cs_generate_variant:Nn
+      \msg_error:nnnn
+      { nnvv }
+    \cs_generate_variant:Nn
+      \_luabridge_execute_shell:n
+      { V }
+    \prg_generate_conditional_variant:Nnn
+      \file_if_exist_input:n
+      { V }
+      { F }
+    \msg_new:nnn
+      { luabridge }
+      { writing-helper-script }
+      {
+        Writing~a~helper~Lua~script~to~file~#1
+      }
+    \msg_new:nnn
+      { luabridge }
+      { executing-helper-script }
+      {
+        Executing~a~helper~Lua~script~from~file~#1~
+        and~storing~the~result~in~file~#2
+      }
+    \msg_new:nnnn
+      { luabridge }
+      { failed-to-execute }
+      {
+        An~error~was~encountered~while~executing~Lua~code
+      }
+      {
+        For further clues, examine file #1/#2
+      }
+  }
+  {
+    \cs_new:Nn
+      \luabridge_now:n
+      {
+        \tl_set:Nn
+          \l_tmpa_tl
+          { #1 }
+        \tl_set:Nx
+          \l_tmpb_tl
+          {
+            local~function~print(input)~
+              input~=~tostring(input)~
+              local~output~=~{}~
+              for~line~in~input:gmatch("[^
+                    \iow_char:N \\ r
+                    \iow_char:N \\ n
+                  ]+")~do~
+                table.insert(output,~line)~
+              end~
+              tex.print(output)~
+            end~
+            \exp_not:V \l_tmpa_tl
+          }
+        \lua_now:V
+          \l_tmpb_tl
+      }
+    \cs_generate_variant:Nn
+      \lua_now:n
+      { V }
+  }
+\cs_new_protected:Npn
+  \luabridgeExecute
+  #1
+  {
+    \luabridge_now:e
+      { #1 }
+  }
+\cs_generate_variant:Nn
+  \luabridge_now:n
+  { e }
+\ExplSyntaxOff
+%</generic-package>
+%    \end{macrocode}
+%
+% \section{\LaTeX{} implementation}
+%
+% This section contains the implementation for \LaTeX.
+%
+%    \begin{macrocode}
+%<*latex-package>
+\RequirePackage{expl3}
+\ProvidesExplPackage
+  {lt3luabridge}%
+  {2022-06-26}%
+  {1.0.1}%
+  {An expl3 package that allows you to execute Lua code in LuaTeX or any other
+   TeX engine that exposes the shell}
+\input lt3luabridge\relax
+%</latex-package>
+%    \end{macrocode}
+%
+% \section{\Hologo{ConTeXt} implementation}
+%
+% This section contains the implementation for \Hologo{ConTeXt}.
+%
+%    \begin{macrocode}
+%<*context-package>
+\writestatus{loading}{ConTeXt User Module / lt3luabridge}
+\startmodule[lt3luabridge]
+\unprotect
+\input lt3luabridge\relax
+%</context-package>
+%    \end{macrocode}
+%
+% \end{implementation}
+%
+% \printbibliography
+% \PrintIndex

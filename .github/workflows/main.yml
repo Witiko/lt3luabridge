@@ -45,6 +45,8 @@ jobs:
           set -e
           apt-get -qy update
           apt-get -qy install --no-install-recommends poppler-utils ruby
+      - name: Install lt3luabridge
+        run: xetex lt3luabridge.ins
       - name: Compile example document
         run: ${{ matrix.command }}
       - name: Extract text of the example document
