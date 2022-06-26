@@ -34,7 +34,7 @@ jobs:
           - luatex                                   --interaction=nonstopmode  example.plaintex
     runs-on: ubuntu-latest
     container:
-      image: texlive/texlive:latest-with-cache
+      image: texlive/texlive:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
