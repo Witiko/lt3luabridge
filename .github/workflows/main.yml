@@ -42,7 +42,7 @@ jobs:
         run: |
           set -e
           apt-get -qy update
-          apt-get -qy install --no-install-recommends poppler-utils
+          apt-get -qy install --no-install-recommends poppler-utils ruby
       - name: Compile example document
         run: ${{ matrix.command }}
       - name: Extract text of the example document
