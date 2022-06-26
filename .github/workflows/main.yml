@@ -20,8 +20,6 @@ jobs:
         uses: nosborn/github-action-markdown-cli@v2.0.0
   test:
     name: Compile example document
-    needs:
-      - markdownlint
     strategy:
       fail-fast: true
       matrix:
@@ -53,3 +51,40 @@ jobs:
         run: pdftotext example.pdf
       - name: Check the text of the example document
         run: grep '1+2=3' example.txt
+  prerelease:
+    name: Prerelease the package
+    needs:
+      - markdownlint
+      - test
+    runs-on: ubuntu-latest
+    container:
+      image: texlive/texlive:latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+          set -e
+          apt-get -qy update
+          apt-get -qy install --no-install-recommends zip
+      - name: Install lt3luabridge
+        run: xetex lt3luabridge.ins
+      - name: Typeset documentation
+        run: latexmk lt3luabridge.dtx
+      - name: Produce lt3luabridge.zip
+        run: zip -@ lt3luabridge < RELEASE_FILES
+      - name: Upload artifact lt3luabridge.zip
+        uses: actions/upload-artifact@v2
+        with:
+          name: lt3luabridge.zip
+          path: lt3luabridge.zip
+      - name: Create a prerelease
+        if: github.ref == 'refs/heads/main'
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          title: The latest version
+          automatic_release_tag: latest
+          prerelease: true
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          files: |
+            lt3luabridge.zip
