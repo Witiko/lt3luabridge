@@ -1,4 +1,4 @@
-name: test & publish
+name: test
 on:
   push:
   pull_request:
