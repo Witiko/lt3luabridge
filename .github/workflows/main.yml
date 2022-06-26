@@ -23,7 +23,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        texlive:
+        command:
           - texexec  --passon="--shell-escape --8bit --interaction=nonstopmode" example.context
           - context                                              --nonstopmode  example.context
           - pdflatex --shell-escape                  --interaction=nonstopmode  example.latex
