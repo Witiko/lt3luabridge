@@ -9,7 +9,7 @@ the shell:
 
 ``` tex
 \documentclass{standalone}
-\usepackage{l3luabridge}
+\usepackage{lt3luabridge}
 \begin{document}
 $ 1 + 2 = \luabridgeExecute{ print(1 + 2) } $
 \end{document}

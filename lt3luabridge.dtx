@@ -35,7 +35,7 @@
 % \fi
 %
 % \title{^^A
-%   The \textsf{lt3luabridge} package: Lua without Lua\TeX^^A
+%   The \textsf{lt3luabridge} package: \Lua{} without \Lua\TeX^^A
 % }
 %
 % \author{^^A
@@ -54,21 +54,20 @@
 % \begin{documentation}
 %
 % The \pkg{lt3luabridge} expl3~\cite{expl3} package provides support for
-% executing Lua code in Lua\TeX{} or any other \TeX{} engine that exposes the
-% shell. The package provides interfaces to plain \TeX, \LaTeX, and
+% executing \Lua{} code in \Lua\TeX{} or any other \TeX{} engine that exposes
+% the shell. The package provides interfaces to plain \TeX, \LaTeX, and
 % \Hologo{ConTeXt}
 % formats:
 % \begin{verbatim}
 % \documentclass{standalone}
-% \usepackage{l3luabridge}
+% \usepackage{lt3luabridge}
 % \begin{document}
 % $ 1 + 2 = \luabridgeExecute{ print(1 + 2) } $
 % \end{document}
 % \end{verbatim}
-%
-% The package was previously part of the Markdown package for
-% \TeX~\cite{markdown}, where it has been battle-tested since 2016.
-% Since 2022, lt3luabridge has also been available as a separate package.
+% The package was previously part of the Markdown package~\cite{markdown},
+% where it has been battle-tested since 2016.  Since 2022, lt3luabridge has
+% also been available as a separate package.
 %
 % \section{Loading the package}
 %
@@ -76,10 +75,10 @@
 % use the |\usepackage{lt3luabridge}| command to load the package from \LaTeX, and
 % use the |\usemodule[t][lt3luabridge]| command to load the package from \Hologo{ConTeXt}.
 %
-% \section{Executing Lua code}
+% \section{Executing \Lua{} code}
 %
-% The interface for executing Lua code closely mimics the \cs{lua_now:n}
-% function from the \pkg{l3luatex} package.
+% The interface for executing \Lua{} code mimics the \cs{lua_now:n} function
+% from \pkg{l3luatex}.
 %
 % \begin{function}[added = 2022-06-26]{\luabridge_now:n, \luabridge_now:e}
 %   \begin{syntax}
@@ -96,27 +95,28 @@
 %   Unlike \cs{lua_now:n}, \cs{luabridge_now:n} may execute \meta{\Lua{} input}
 %   in a separate process from \TeX. Therefore, you should not interact with
 %   \TeX{} from \meta{\Lua{} input}. The only exception is the standard output
-%   produced by \meta{\Lua{} input} using for example the |print()| Lua
-%   function, which will always be inserted into \TeX's input stream after
-%   \meta{\Lua{} input} has been processed.
+%   produced by \meta{\Lua{} input} using for example the |print()| \Lua{}
+%   function like in the example at the top of this page. The standard output
+%   will be inserted into \TeX's input stream after \meta{\Lua{} input} has
+%   been processed at the latest.
 % \end{function}
 %
 % \begin{function}[added = 2022-06-26]{\luabridgeExecute}
 %   \begin{syntax}
 %     \cs{luabridgeExecute} \Arg{token list}
 %   \end{syntax}
-%   The \cs{luabridgeExecute} document command is an alias for
-%   the \cs{luabridge_now:e} expl3 function.
+%   The \cs{luabridgeExecute} document command aliases
+%   the \cs{luabridge_now:e} function.
 % \end{function}
 %
-% \section{Setting and getting the method to execute Lua code}
+% \section{Setting and getting the method to execute \Lua{} code}
 %
-% There are several methods that can be used to execute Lua code. This section
-% describes the interface that the package provides to set the preferred method
-% or to determine which method was used.
+% There are several methods that can be used to execute \Lua{} code. This
+% section describes the interface that the package provides to set the
+% preferred method or to determine which method was used.
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_method_int}
-%   This variable controls the method used to execute Lua code.
+%   This variable controls the method used to execute \Lua{} code.
 %   The variable is set automatically when the package is loaded
 %   and changing the value of the variable afterwards has no effect.
 %   However, we can set the value of the variable before loading the
@@ -124,23 +124,23 @@
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_method_write_eighteen_int}
-%   Use shell escape through the \cs{write18} \TeX{} command to execute Lua code.
+%   Use shell escape through the \cs{write18} \TeX{} command to execute \Lua{} code.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_method_os_execute_int}
-%   Use shell escape through the |os.execute()| Lua method to execute Lua code.
+%   Use shell escape through the |os.execute()| Lua function to execute \Lua{} code.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_method_directlua_int}
-%   Use the \cs{directlua} primitive of Lua\TeX{} to execute Lua code.
+%   Use the \cs{directlua} primitive of Lua\TeX{} to execute \Lua{} code.
 % \end{variable}
 %
 % \section{Setting and getting the filenames of helper files}
 %
-% When shell escape is used to execute Lua code, several helper files are
+% When shell escape is used to execute \Lua{} code, several helper files are
 % needed to shuffle around code and output. The following variables and
 % constants are undefined when the \cs{directlua} primitive of Lua\TeX{} is
-% used to execute Lua code.
+% used to execute \Lua{} code.
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_output_dirname_str}
 %   This variable controls the output directory that will store the helper
@@ -153,8 +153,8 @@
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_helper_script_filename_str}
-%   This variable controls the filename of a helper Lua script that will be
-%   executed from the shell using the \TeX{} Lua interpreter.
+%   This variable controls the filename of a helper \Lua{} script that will be
+%   executed from the shell using the \TeX{} \Lua{} interpreter.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_default_helper_script_filename_str}
@@ -174,7 +174,7 @@
 %
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_error_output_filename_str}
 %   This variable controls the filename of a helper file that will contain the
-%   error output produced by the \TeX{} Lua interpreter (if any).
+%   error output produced by the |texlua| interpreter (if any).
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_default_error_output_filename_str}
@@ -664,6 +664,7 @@
 % \section{\Hologo{ConTeXt} implementation}
 %
 % This section contains the implementation for \Hologo{ConTeXt}.
+% \Hologo{ConTeXt} MkII, MkIV, and later formats are supported.
 %
 %    \begin{macrocode}
 %<*context-package>
