@@ -67,8 +67,6 @@ jobs:
           set -e
           apt-get -qy update
           apt-get -qy install --no-install-recommends zip
-      - name: Install lt3luabridge
-        run: xetex lt3luabridge.ins
       - name: Typeset documentation
         run: latexmk lt3luabridge.dtx
       - name: Produce lt3luabridge.zip
