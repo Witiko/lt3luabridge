@@ -70,7 +70,10 @@ jobs:
       - name: Typeset documentation
         run: latexmk lt3luabridge.dtx
       - name: Produce lt3luabridge.zip
-        run: zip -@ lt3luabridge < RELEASE_FILES
+        run: |
+          set -e
+          ln -s . lt3luabridge
+          zip -@ lt3luabridge < RELEASE_FILES
       - name: Upload artifact lt3luabridge.zip
         uses: actions/upload-artifact@v2
         with:
