@@ -81,7 +81,7 @@
 % The interface for executing Lua code closely mimics the \cs{lua_now:n}
 % function from the \pkg{l3luatex} package.
 %
-% \begin{function}[added = 2022-06-26]{\luabridge_now:n, \luabridge_now:e, \luabridgeExecute}
+% \begin{function}[added = 2022-06-26]{\luabridge_now:n, \luabridge_now:e}
 %   \begin{syntax}
 %     \cs{luabridge_now:n} \Arg{token list}
 %   \end{syntax}
@@ -93,8 +93,20 @@
 %   The \Lua{} interpreter executes the \meta{\Lua{} input} immediately,
 %   and in an expandable manner.
 %
+%   Unlike \cs{lua_now:n}, \cs{luabridge_now:n} may execute \meta{\Lua{} input}
+%   in a separate process from \TeX. Therefore, you should not interact with
+%   \TeX{} from \meta{\Lua{} input}. The only exception is the standard output
+%   produced by \meta{\Lua{} input} using for example the |print()| Lua
+%   function, which will always be inserted into \TeX's input stream after
+%   \meta{\Lua{} input} has been processed.
+% \end{function}
+%
+% \begin{function}[added = 2022-06-26]{\luabridgeExecute}
+%   \begin{syntax}
+%     \cs{luabridgeExecute} \Arg{token list}
+%   \end{syntax}
 %   The \cs{luabridgeExecute} document command is an alias for
-%   \cs{luabridge_now:e}.
+%   the \cs{luabridge_now:e} expl3 function.
 % \end{function}
 %
 % \section{Setting and getting the method to execute Lua code}
