@@ -94,12 +94,10 @@
 %
 %   Unlike \cs{lua_now:n}, \cs{luabridge_now:n} may execute \meta{\Lua{} input}
 %   in a separate process from \TeX. Therefore, you should not interact with
-%   \TeX{} from \meta{\Lua{} input}. The only exception is the standard output
-%   produced by \meta{\Lua{} input} using for example the |print()| \Lua{}
-%   function like in the example at the top of this page. The standard output
-%   will be inserted into \TeX's input stream after \meta{\Lua{} input} has
-%   been processed at the latest. Furthermore, unlike \cs{lua_now:n},
-%   \cs{luabridge_now:n} cannot set global Lua variables.
+%   \TeX{} from \meta{\Lua{} input} or create global variables. The only
+%   exception is the standard output produced by the |print()| \Lua{} function
+%   like in the example at the top of this page. The standard output of
+%   |print()| will be inserted into \TeX's input stream.
 % \end{function}
 %
 % \begin{function}[added = 2022-06-26, updated=2022-07-31]{\luabridgeExecute}
