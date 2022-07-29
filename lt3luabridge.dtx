@@ -47,7 +47,7 @@
 %    }^^A
 % }
 %
-% \date{Released 2022-06-26}
+% \date{Released 2022-07-31}
 %
 % \maketitle
 %
@@ -80,7 +80,7 @@
 % The interface for executing \Lua{} code mimics the \cs{lua_now:n} function
 % from \pkg{l3luatex}.
 %
-% \begin{function}[added = 2022-06-26]{\luabridge_now:n, \luabridge_now:e}
+% \begin{function}[added = 2022-06-26, updated=2022-07-31]{\luabridge_now:n, \luabridge_now:e}
 %   \begin{syntax}
 %     \cs{luabridge_now:n} \Arg{token list}
 %   \end{syntax}
@@ -102,7 +102,7 @@
 %   \cs{luabridge_now:n} cannot set global Lua variables.
 % \end{function}
 %
-% \begin{function}[added = 2022-06-26]{\luabridgeExecute}
+% \begin{function}[added = 2022-06-26, updated=2022-07-31]{\luabridgeExecute}
 %   \begin{syntax}
 %     \cs{luabridgeExecute} \Arg{token list}
 %   \end{syntax}
@@ -124,12 +124,8 @@
 %   package to one of the constants described below.
 % \end{variable}
 %
-% \begin{variable}[added = 2022-06-26]{\c_luabridge_method_write_eighteen_int}
+% \begin{variable}[added = 2022-07-31]{\c_luabridge_method_shell_int}
 %   Use shell escape through the \cs{write18} \TeX{} command to execute \Lua{} code.
-% \end{variable}
-%
-% \begin{variable}[added = 2022-06-26]{\c_luabridge_method_os_execute_int}
-%   Use shell escape through the |os.execute()| Lua function to execute \Lua{} code.
 % \end{variable}
 %
 % \begin{variable}[added = 2022-06-26]{\c_luabridge_method_directlua_int}
@@ -163,16 +159,6 @@
 %   \cs{g_luabridge_helper_script_filename_str}.
 % \end{variable}
 %
-% \begin{variable}[added = 2022-06-26]{\g_luabridge_standard_output_filename_str}
-%   This variable controls the filename of a helper file that will contain the
-%   standard output produced by the |texlua| interpreter (if any).
-% \end{variable}
-%
-% \begin{variable}[added = 2022-06-26]{\c_luabridge_default_standard_output_filename_str}
-%   This constant is the default value of
-%   \cs{g_luabridge_standard_output_filename_str}.
-% \end{variable}
-%
 % \begin{variable}[added = 2022-06-26]{\g_luabridge_error_output_filename_str}
 %   This variable controls the filename of a helper file that will contain the
 %   error output produced by the |texlua| interpreter (if any).
@@ -199,48 +185,33 @@
 \fi
 \ExplSyntaxOn
 \int_const:Nn
-  \c_luabridge_method_write_eighteen_int
+  \c_luabridge_method_directlua_int
   { 0 }
 \int_const:Nn
-  \c_luabridge_method_os_execute_int
+  \c_luabridge_method_shell_int
   { 1 }
-\int_const:Nn
-  \c_luabridge_method_directlua_int
-  { 2 }
 \int_if_exist:NF
   \g_luabridge_method_int
   {
     \int_new:N
       \g_luabridge_method_int
-    \sys_if_engine_luatex:TF
-      {
-        \int_gset_eq:NN
-          \g_luabridge_method_int
-          \c_luabridge_method_directlua_int
-      }
-      {
-        \int_gset_eq:NN
-          \g_luabridge_method_int
-          \c_luabridge_method_write_eighteen_int
-      }
+      \sys_if_engine_luatex:TF
+        {
+          \int_gset_eq:NN
+            \g_luabridge_method_int
+            \c_luabridge_method_directlua_int
+        }
+        {
+          \int_gset_eq:NN
+            \g_luabridge_method_int
+            \c_luabridge_method_shell_int
+        }
   }
 \msg_new:nnn
   { luabridge }
-  { unknown-method }
+  { method-shell }
   {
-    Unknown~bridging~method:~#1
-  }
-\msg_new:nnn
-  { luabridge }
-  { method-write-eighteen }
-  {
-    Using~shell~escape~via~write18~as~the~bridging~method
-  }
-\msg_new:nnn
-  { luabridge }
-  { method-os-execute }
-  {
-    Using~shell~escape~via~os.execute()~as~the~bridging~method
+    Using~shell~escape~as~the~bridging~method
   }
 \msg_new:nnn
   { luabridge }
@@ -248,20 +219,20 @@
   {
     Using~direct~Lua~access~as~the~bridging~method
   }
+\msg_new:nnn
+  { luabridge }
+  { unknown-method }
+  {
+    Unknown~bridging~method:~#1
+  }
 \int_case:nnF
   { \g_luabridge_method_int }
   {
-    { \c_luabridge_method_write_eighteen_int }
+    { \c_luabridge_method_shell_int }
       {
         \msg_info:nn
           { luabridge }
-          { method-write-eighteen }
-      }
-    { \c_luabridge_method_os_execute_int }
-      {
-        \msg_info:nn
-          { luabridge }
-          { method-os-execute }
+          { method-shell }
       }
     { \c_luabridge_method_directlua_int }
       {
@@ -279,101 +250,11 @@
       { unknown-method }
       \g_luabridge_method_int
   }
-\bool_if:nTF
+\int_compare:nNnT
+  { \g_luabridge_method_int }
+  =
+  { \c_luabridge_method_shell_int }
   {
-    \int_compare_p:nNn
-      { \g_luabridge_method_int }
-      =
-      { \c_luabridge_method_write_eighteen_int } ||
-    \int_compare_p:nNn
-      { \g_luabridge_method_int }
-      =
-      { \c_luabridge_method_os_execute_int }
-  }
-  {
-    \int_const:Nn
-      \c_@@_level_disabled_int
-      { 0 }
-    \int_const:Nn
-      \c_@@_level_enabled_int
-      { 1 }
-    \int_const:Nn
-      \c_@@_level_restricted_int
-      { 2 }
-    \int_new:N
-      \l_@@_level_int
-    \cs_if_exist:NTF
-      \pdfshellescape
-      {
-        \int_gset:Nn
-          \l_@@_level_int
-          { \pdfshellescape }
-      }
-      {
-        \cs_if_exist:NTF
-          \shellescape
-          {
-            \int_gset:Nn
-              \l_@@_level_int
-              { \shellescape }
-          }
-          {
-            \int_case:nnF
-              { \g_luabridge_method_int }
-              {
-                { \c_luabridge_method_write_eighteen_int }
-                  {
-                    \int_gset_eq:NN
-                      \l_@@_level_int
-                      \c_@@_level_enabled_int
-                  }
-              }
-              {
-                \int_gset:Nn
-                  \l_@@_level_int
-                  {
-                    \lua_now:n
-                      {
-                        tex.sprint(status.shell_escape or "1")
-                      }
-                  }
-              }
-          }
-      }
-    \msg_new:nnn
-      { luabridge }
-      { unknown-level }
-      {
-        Unknown~shell~escape~level:~#1
-      }
-    \msg_new:nnnn
-      { luabridge }
-      { level-disabled }
-      {
-        Shell~escape~seems~to~be~disabled
-      }
-      {
-        You~may~need~to~run~TeX~with~the~--shell-escape~or~the~
-        --enable-write18~flag,~or~write~shell_escape=t~in~the~
-        texmf.cnf~file.
-      }
-    \msg_new:nnn
-      { luabridge }
-      { level-enabled }
-      {
-        Shell~escape~seems~to~be~enabled
-      }
-    \msg_new:nnnn
-      { luabridge }
-      { level-restricted }
-      {
-        Shell~escape~seems~to~be~restricted
-      }
-      {
-        You~may~need~to~run~TeX~with~the~--shell-escape~or~the~
-        --enable-write18~flag,~or~write~shell_escape=t~in~the~
-        texmf.cnf~file.
-      }
     \str_const:Nn
       \c_luabridge_default_output_dirname_str
       { . }
@@ -383,80 +264,6 @@
     \str_const:Nx
       \c_luabridge_default_error_output_filename_str
       { \jobname.luabridge.err }
-    \str_const:Nx
-      \c_luabridge_default_standard_output_filename_str
-      { \jobname.luabridge.out }
-    \int_case:nnF
-      { \l_@@_level_int }
-      {
-        { \c_@@_level_disabled_int }
-          {
-            \msg_warning:nn
-              { luabridge }
-              { level-disabled }
-          }
-        { \c_@@_level_enabled_int }
-          {
-            \msg_info:nn
-              { luabridge }
-              { level-enabled }
-          }
-        { \c_@@_level_restricted_int }
-          {
-            \msg_warning:nn
-              { luabridge }
-              { level-restricted }
-          }
-      }
-      {
-        \msg_error:nnx
-          { luabridge }
-          { unknown-level }
-          { \l_@@_level_int }
-      }
-    \cs_new:Nn
-      \_luabridge_assert_shell_escape:
-      {
-        \int_case:nnF
-          { \l_@@_level_int }
-          {
-            { \c_@@_level_disabled_int }
-              {
-                \msg_error:nn
-                  { luabridge }
-                  { level-disabled }
-              }
-          }
-      }
-    \int_case:nn
-      { \g_luabridge_method_int }
-      {
-        { \c_luabridge_method_write_eighteen_int }
-          {
-            \cs_new:Nn
-              \_luabridge_execute_shell:n
-              {
-                \_luabridge_assert_shell_escape:
-                \immediate
-                  \write 18
-                    { #1 }
-              }
-          }
-        { \c_luabridge_method_os_execute_int }
-          {
-            \cs_new:Nn
-              \_luabridge_execute_shell:n
-              {
-                \_luabridge_assert_shell_escape:
-                \lua_now:e
-                  {
-                    os.execute(
-                      " \lua_escape:e { #1 } "
-                    )
-                  }
-              }
-          }
-      }
     \str_if_exist:NF
       \g_luabridge_output_dirname_str
       {
@@ -479,13 +286,6 @@
         \str_gset_eq:NN
           \g_luabridge_error_output_filename_str
           \c_luabridge_default_error_output_filename_str
-      }
-    \str_if_exist:NF
-      \g_luabridge_standard_output_filename_str
-      {
-        \str_gset_eq:NN
-          \g_luabridge_standard_output_filename_str
-          \c_luabridge_default_standard_output_filename_str
       }
     \cs_new:Nn
       \luabridge_now:n
@@ -524,7 +324,7 @@
                     { luabridge }
                     { failed-to-execute }
                     { g_luabridge_output_dirname_str }
-                    { g_luabridge_output_dirname_str }
+                    { g_luabridge_error_output_filename_str }
                 \iow_char:N \\ \iow_char:N \\ endgroup
               ')
             end
@@ -534,38 +334,34 @@
           \l_tmpa_tl
         \iow_close:N
           \g_tmpa_iow
-        \msg_info:nnVV
+        \msg_info:nnV
           { luabridge }
           { executing-helper-script }
           \g_luabridge_helper_script_filename_str
-          \g_luabridge_standard_output_filename_str
-        \tl_set:Nx
-          \l_tmpa_tl
+        \sys_get_shell:xnNTF
           {
-            texlua~"
+            texlua~
               \g_luabridge_output_dirname_str /
               \g_luabridge_helper_script_filename_str
-            "~>~"
-              \g_luabridge_output_dirname_str /
-              \g_luabridge_standard_output_filename_str
-            "
           }
-        \_luabridge_execute_shell:V
+          { }
           \l_tmpa_tl
-        \file_if_exist_input:VF
-          \g_luabridge_standard_output_filename_str
+          {
+            \l_tmpa_tl
+          }
           {
             \msg_error:nn
               { luabridge }
               { level-disabled }
           }
       }
+    \prg_generate_conditional_variant:Nnn
+      \sys_get_shell:nnN
+      { xnN }
+      { TF }
     \cs_generate_variant:Nn
       \msg_info:nnn
       { nnV }
-    \cs_generate_variant:Nn
-      \msg_info:nnnn
-      { nnVV }
     \cs_generate_variant:Nn
       \msg_error:nnnn
       { nnvv }
@@ -575,13 +371,6 @@
     \cs_generate_variant:Nn
       \iow_now:Nn
       { NV }
-    \cs_generate_variant:Nn
-      \_luabridge_execute_shell:n
-      { V }
-    \prg_generate_conditional_variant:Nnn
-      \file_if_exist_input:n
-      { V }
-      { F }
     \msg_new:nnn
       { luabridge }
       { writing-helper-script }
@@ -592,8 +381,7 @@
       { luabridge }
       { executing-helper-script }
       {
-        Executing~a~helper~Lua~script~from~file~#1~
-        and~storing~the~result~in~file~#2
+        Executing~a~helper~Lua~script~from~file~#1
       }
     \msg_new:nnnn
       { luabridge }
@@ -602,9 +390,24 @@
         An~error~was~encountered~while~executing~Lua~code
       }
       {
-        For further clues, examine file #1/#2
+        For further clues, examine file #1 / #2
+      }
+    \msg_new:nnnn
+      { luabridge }
+      { level-disabled }
+      {
+        Shell~escape~seems~to~be~disabled
+      }
+      {
+        You~may~need~to~run~TeX~with~the~--shell-escape~or~the~
+        --enable-write18~flag,~or~write~shell_escape=t~in~the~
+        texmf.cnf~file.
       }
   }
+\int_compare:nNnT
+  { \g_luabridge_method_int }
+  =
+  { \c_luabridge_method_directlua_int }
   {
     \cs_new:Nn
       \luabridge_now:n
