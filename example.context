@@ -1,4 +1,5 @@
 \usemodule[t][lt3luabridge]
+\luabridgeExecute{x = 1 -- this will have no effect due to sandboxing}
 \starttext
-$ 1 + 2 = \luabridgeExecute{ print(1 + 2) } $
+$ 1 + 2 = \luabridgeExecute{if true then print(1 + 2) end} $
 \stoptext

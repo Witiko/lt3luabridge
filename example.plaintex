@@ -1,3 +1,4 @@
 \input lt3luabridge\relax
-$ 1 + 2 = \luabridgeExecute{ print(1 + 2) } $
+\luabridgeExecute{x = 1 -- this will have no effect due to sandboxing}
+$ 1 + 2 = \luabridgeExecute{if x == nil then print(1 + 2) end} $
 \bye
