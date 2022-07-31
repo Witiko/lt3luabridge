@@ -306,7 +306,8 @@
             local~ran_ok, error = pcall(function()
               local~ran_ok, kpse = pcall(require,~"kpse")
               if~ran_ok~then~kpse.set_program_name("luatex") end~
-              \exp_not:V \l_tmpa_tl~
+              \exp_not:V \l_tmpa_tl
+              \iow_newline:
             end)
             if~not~ran_ok~then~
               local~file = io.open("

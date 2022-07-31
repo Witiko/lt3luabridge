@@ -50,7 +50,10 @@ jobs:
       - name: Extract text of the example document
         run: pdftotext example.pdf
       - name: Check the text of the example document
-        run: grep '1+2=3' example.txt
+        run: |
+          set -e
+          cat example.txt
+          grep -q '1+2=3' example.txt
   prerelease:
     name: Prerelease the package
     needs:
