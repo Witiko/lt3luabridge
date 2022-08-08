@@ -21,7 +21,7 @@ jobs:
   test:
     name: Compile example document
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         command:
           - texexec  --passon="--shell-escape --8bit --interaction=nonstopmode" example.context
