@@ -285,13 +285,11 @@
           \g_luabridge_error_output_filename_str
           \c_luabridge_default_error_output_filename_str
       }
-    \cs:w newwrite \cs_end:
-      \l_@@_output_stream
     \cs_new:Nn
       \luabridge_now:n
       {
-        \immediate \openout
-          \l_@@_output_stream
+        \iow_open:NV
+          \g_tmpa_iow
           \g_luabridge_helper_script_filename_str
         \msg_info:nnV
           { luabridge }
@@ -330,11 +328,11 @@
               ')
             end
           }
-        \immediate \write
-          \l_@@_output_stream
-          { \exp_not:V \l_tmpb_tl }
-        \immediate \closeout
-          \l_@@_output_stream
+        \iow_now:NV
+          \g_tmpa_iow
+          \l_tmpa_tl
+        \iow_close:N
+          \g_tmpa_iow
         \msg_info:nnV
           { luabridge }
           { executing-helper-script }
@@ -366,6 +364,12 @@
     \cs_generate_variant:Nn
       \msg_error:nnnn
       { nnvv }
+    \cs_generate_variant:Nn
+      \iow_open:Nn
+      { NV }
+    \cs_generate_variant:Nn
+      \iow_now:Nn
+      { NV }
     \msg_new:nnn
       { luabridge }
       { writing-helper-script }
