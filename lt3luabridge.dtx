@@ -47,7 +47,7 @@
 %    }^^A
 % }
 %
-% \date{Released 2022-08-16}
+% \date{Released 2022-10-18}
 %
 % \maketitle
 %
@@ -319,7 +319,8 @@
               print('
                 \iow_char:N \\ \iow_char:N \\ begingroup
                   \iow_char:N \\ \iow_char:N \\ ExplSyntaxOn
-                  \iow_char:N \\ \iow_char:N \\ msg_error:nnvv
+                  \iow_char:N \\ \iow_char:N \\ csname~
+                  msg_error:nnvv\iow_char:N \\ \iow_char:N \\ endcsname
                     { luabridge }
                     { failed-to-execute }
                     { g_luabridge_output_dirname_str }
@@ -461,8 +462,8 @@
 \RequirePackage{expl3}
 \ProvidesExplPackage
   {lt3luabridge}%
-  {2022-08-16}%
-  {2.0.1}%
+  {2022-10-18}%
+  {2.0.2}%
   {An expl3 package that allows you to execute Lua code in LuaTeX or any other
    TeX engine that exposes the shell}
 \input lt3luabridge\relax
