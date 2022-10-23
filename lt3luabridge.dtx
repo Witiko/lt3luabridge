@@ -47,7 +47,7 @@
 %    }^^A
 % }
 %
-% \date{Released 2022-10-18}
+% \date{Released 2022-10-24}
 %
 % \maketitle
 %
@@ -295,17 +295,27 @@
           { luabridge }
           { writing-helper-script }
           \g_luabridge_helper_script_filename_str
-        \tl_set:Nn
+%    \end{macrocode}
+%
+% Escape |"| and |\| in the Lua code, so that we can represent it as a
+% double-quoted string that we can pass into the |load()| Lua built-in
+% and fail gracefully if the Lua code fails to compile.
+%
+%    \begin{macrocode}
+        \tl_set:Nx
           \l_tmpa_tl
-          { #1 }
+          { \tl_to_str:n { #1 } }
+        \regex_replace_all:nnN
+          { [\\"] }
+          { \\\0 }
+          \l_tmpa_tl
         \tl_set:Nx
           \l_tmpb_tl
           {
-            local~ran_ok, error = pcall(function()
+            local~ran_ok, err = pcall(function()
               local~ran_ok, kpse = pcall(require,~"kpse")
               if~ran_ok~then~kpse.set_program_name("luatex") end~
-              \exp_not:V \l_tmpa_tl
-              \iow_newline:
+              assert(load(" \exp_not:V \l_tmpa_tl "))()
             end)
             if~not~ran_ok~then~
               local~file = io.open("
@@ -313,7 +323,7 @@
                 \g_luabridge_error_output_filename_str
               ", "w")
               if~file~then~
-                file:write(error .. " \iow_char:N \\ n ")
+                file:write(err .. " \iow_char:N \\ n ")
                 file:close()
               end~
               print('
@@ -462,7 +472,7 @@
 \RequirePackage{expl3}
 \ProvidesExplPackage
   {lt3luabridge}%
-  {2022-10-18}%
+  {2022-10-24}%
   {2.0.2}%
   {An expl3 package that allows you to execute Lua code in LuaTeX or any other
    TeX engine that exposes the shell}
