@@ -312,7 +312,7 @@
         \tl_set:Nx
           \l_tmpb_tl
           {
-            local~ran_ok, error = pcall(function()
+            local~ran_ok, err = pcall(function()
               local~ran_ok, kpse = pcall(require,~"kpse")
               if~ran_ok~then~kpse.set_program_name("luatex") end~
               \exp_not:V \l_tmpa_tl
@@ -324,7 +324,7 @@
                 \g_luabridge_error_output_filename_str
               ", "w")
               if~file~then~
-                file:write(error .. " \iow_char:N \\ n ")
+                file:write(err .. " \iow_char:N \\ n ")
                 file:close()
               end~
               print('
