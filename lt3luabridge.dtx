@@ -310,7 +310,7 @@
           { \\\0 }
           \l_tmpa_tl
         \tl_set:Nx
-          \l_tmpb_tl
+          \l_tmpa_tl
           {
             local~ran_ok, err = pcall(function()
               local~ran_ok, kpse = pcall(require,~"kpse")
@@ -341,7 +341,7 @@
           }
         \iow_now:NV
           \g_tmpa_iow
-          \l_tmpb_tl
+          \l_tmpa_tl
         \iow_close:N
           \g_tmpa_iow
         \msg_info:nnV
@@ -426,7 +426,7 @@
           \l_tmpa_tl
           { #1 }
         \tl_set:Nx
-          \l_tmpb_tl
+          \l_tmpa_tl
           {
             _ENV = setmetatable({}, {__index = _ENV})
             local~function~print(input)
@@ -443,7 +443,7 @@
             \exp_not:V \l_tmpa_tl
           }
         \lua_now:V
-          \l_tmpb_tl
+          \l_tmpa_tl
       }
     \cs_generate_variant:Nn
       \lua_now:n
