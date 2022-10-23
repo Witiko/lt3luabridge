@@ -295,9 +295,20 @@
           { luabridge }
           { writing-helper-script }
           \g_luabridge_helper_script_filename_str
-        \tl_set:Nn
+%    \end{macrocode}
+%
+% Escape |"| and |\| in the Lua code, so that we can represent it as a
+% double-quoted string that we can pass into the |load()| Lua built-in
+% and fail gracefully if the Lua code fails to compile.
+%
+%    \begin{macrocode}
+        \tl_set:Nx
           \l_tmpa_tl
-          { #1 }
+          { \tl_to_str:n { #1 } }
+        \regex_replace_all:nnN
+          { [\\"] }
+          { \\\0 }
+          \l_tmpa_tl
         \tl_set:Nx
           \l_tmpb_tl
           {
