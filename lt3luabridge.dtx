@@ -39,7 +39,7 @@
 % }
 %
 % \author{^^A
-%  Vít Novotný\thanks
+%  Vít Starý Novotný\thanks
 %    {^^A
 %      E-mail:
 %        \href{mailto:witiko@mail.muni.cz}
@@ -47,7 +47,7 @@
 %    }^^A
 % }
 %
-% \date{Released 2022-10-24}
+% \date{Released 2024-02-14}
 %
 % \maketitle
 %
@@ -106,6 +106,14 @@
 %   \end{syntax}
 %   The \cs{luabridgeExecute} document command aliases
 %   the \cs{luabridge_now:e} function.
+% \end{function}
+%
+% \begin{function}[added = 2024-02-14]{\luabridge_tl_set:Nn}
+%   \begin{syntax}
+%     \cs{\luabridge_tl_set:Nn} \meta{tl var} \Arg{token list}
+%   \end{syntax}
+%   Like \cs{lua_now:n} but the result of executing the Lua code is stored in
+%   \meta{tl var} instead of being inserted into \TeX's input stream.
 % \end{function}
 %
 % \section{Setting and getting the method to execute \Lua{} code}
@@ -286,7 +294,7 @@
           \c_luabridge_default_error_output_filename_str
       }
     \cs_new:Nn
-      \luabridge_now:n
+      \luabridge_tl_set:Nn
       {
         \iow_open:NV
           \g_tmpa_iow
@@ -304,7 +312,7 @@
 %    \begin{macrocode}
         \tl_set:Nx
           \l_tmpa_tl
-          { \tl_to_str:n { #1 } }
+          { \tl_to_str:n { #2 } }
         \regex_replace_all:nnN
           { [\\"] }
           { \\\0 }
@@ -355,9 +363,8 @@
               \g_luabridge_helper_script_filename_str
           }
           { }
-          \l_tmpa_tl
+          #1
           {
-            \l_tmpa_tl
           }
           {
             \msg_error:nn
@@ -420,11 +427,11 @@
   { \c_luabridge_method_directlua_int }
   {
     \cs_new:Nn
-      \luabridge_now:n
+      \luabridge_tl_set:Nn
       {
         \tl_set:Nn
           \l_tmpa_tl
-          { #1 }
+          { #2 }
         \tl_set:Nx
           \l_tmpa_tl
           {
@@ -442,12 +449,25 @@
             end~
             \exp_not:V \l_tmpa_tl
           }
-        \lua_now:V
-          \l_tmpa_tl
+        \tl_set:Nf
+          #1
+          {
+            \lua_now:V
+              \l_tmpa_tl
+          }
       }
     \cs_generate_variant:Nn
       \lua_now:n
       { V }
+  }
+\cs_new:Nn
+  \luabridge_now:n
+  {
+    \luabridge_tl_set:Nn
+      \l_tmpb_tl
+      { #1 }
+    \tl_use:N
+      \l_tmpb_tl
   }
 \cs_new_protected:Npn
   \luabridgeExecute
