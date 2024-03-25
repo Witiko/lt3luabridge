@@ -24,7 +24,7 @@ jobs:
       fail-fast: true
       matrix:
         command:
-          - context                                              --nonstopmode  example.context
+          - context                        --luatex              --nonstopmode  example.context
           - pdflatex --shell-escape                  --interaction=nonstopmode  example.latex
           - xelatex  --shell-escape --8bit           --interaction=nonstopmode  example.latex
           - lualatex                                 --interaction=nonstopmode  example.latex
