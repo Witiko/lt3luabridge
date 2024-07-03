@@ -32,16 +32,24 @@ jobs:
           - xetex    --shell-escape --8bit           --interaction=nonstopmode  example.plaintex
           - luatex                                   --interaction=nonstopmode  example.plaintex
     runs-on: ubuntu-latest
-    container:
-      image: texlive/texlive:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install dependencies
         run: |
           set -e
-          apt-get -qy update
-          apt-get -qy install --no-install-recommends poppler-utils ruby
+          sudo apt-get -qy update
+          sudo apt-get -qy install --no-install-recommends libfontconfig1 poppler-utils ruby
+      - name: Install TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: |
+            context
+            latex
+            luatex
+            scheme-minimal
+            standalone
+            xetex
       - name: Install lt3luabridge
         run: xetex lt3luabridge.ins
       - name: Compile example document
@@ -54,21 +62,33 @@ jobs:
           cat example.txt
           grep -q '1+2=3' example.txt
   prerelease:
-    name: Prerelease the package
+    name: Create artifacts and optionally prerelease the package
     needs:
       - markdownlint
       - test
     runs-on: ubuntu-latest
-    container:
-      image: texlive/texlive:latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - name: Install dependencies
         run: |
           set -e
-          apt-get -qy update
-          apt-get -qy install --no-install-recommends zip
+          sudo apt-get -qy update
+          sudo apt-get -qy install --no-install-recommends libfontconfig1 zip
+      - name: Install TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: |
+            alphalph
+            biber
+            biblatex
+            csquotes
+            enumitem
+            hologo
+            hypdoc
+            latex
+            latexmk
+            scheme-basic
       - name: Typeset documentation
         run: latexmk lt3luabridge.dtx
       - name: Produce lt3luabridge.zip
