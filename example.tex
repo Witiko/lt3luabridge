@@ -1,0 +1,15 @@
+\input expl3-generic
+\ExplSyntaxOn
+\str_case:Vn
+  \c_sys_engine_format_str
+  {
+    { pdftex   } { \def \file { example.plaintex } }
+    { luatex   } { \def \file { example.plaintex } }
+    { xetex    } { \def \file { example.plaintex } }
+    { pdflatex } { \def \file { example.latex    } }
+    { lualatex } { \def \file { example.latex    } }
+    { xelatex  } { \def \file { example.latex    } }
+    { cont-en  } { \def \file { example.context  } }
+  }
+\ExplSyntaxOff
+\input\file\relax
