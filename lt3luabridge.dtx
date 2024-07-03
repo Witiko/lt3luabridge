@@ -151,7 +151,7 @@
 %   \texttt{-output-directory} parameter of the \TeX{} engine.
 % \end{variable}
 %
-% \begin{variable}[added = 2022-06-26]{\c_luabridge_default_output_dirname_str}
+% \begin{variable}[added = 2022-06-26, updated = 2024-07-03]{\c_luabridge_default_output_dirname_str}
 %   This constant is the default value of \cs{g_luabridge_output_dirname_str}.
 % \end{variable}
 %
@@ -261,9 +261,42 @@
   =
   { \c_luabridge_method_shell_int }
   {
-    \str_const:Nn
-      \c_luabridge_default_output_dirname_str
-      { . }
+%    \end{macrocode}
+%
+% Instead of assuming the current working directory as the output directory,
+% try to determine the output directory from the environmental variable
+% \texttt{TEXMF_OUTPUT_DIRECTORY}, which is automatically defined by \TeX{}
+% engines and accessible from child processes.
+%
+%    \begin{macrocode}
+    \sys_if_platform_unix:TF
+      {
+        \str_const:Nn
+          \c_luabridge_default_output_dirname_str
+          { $TEXMF_OUTPUT_DIRECTORY }
+      }
+      {
+        \sys_if_platform_windows:TF
+          {
+            \str_set:Nn
+              \l_tmpa_str
+              { TEXMF_OUTPUT_DIRECTORY }
+            \str_put_left:NV
+              \l_tmpa_str
+              \c_percent_str
+            \str_put_right:NV
+              \l_tmpa_str
+              \c_percent_str
+            \str_const:NV
+              \c_luabridge_default_output_dirname_str
+              \l_tmpa_str
+          }
+          {
+            \str_const:Nn
+              \c_luabridge_default_output_dirname_str
+              { . }
+          }
+      }
     \str_const:Nx
       \c_luabridge_default_helper_script_filename_str
       { \jobname.luabridge.lua }
@@ -358,9 +391,43 @@
           \g_luabridge_helper_script_filename_str
         \sys_get_shell:xnNTF
           {
-            texlua~
-              \g_luabridge_output_dirname_str /
-              \g_luabridge_helper_script_filename_str
+%    \end{macrocode}
+%
+% If the environmental variable \texttt{TEXMF_OUTPUT_DIRECTORY} is undefined,
+% use the current working directory (\texttt{.}) instead.
+%
+%    \begin{macrocode}
+            \str_if_eq:NNTF
+              \g_luabridge_output_dirname_str
+              \c_luabridge_default_output_dirname_str
+              {
+                \sys_if_platform_windows:TF
+                  {
+                    if~not~defined~TEXMF_OUTPUT_DIRECTORY~(
+                      texlua~
+                        \g_luabridge_helper_script_filename_str
+                    )~else~(
+                      texlua~
+                        \g_luabridge_output_dirname_str /
+                        \g_luabridge_helper_script_filename_str
+                    )
+                  }
+                  {
+                    \sys_if_platform_unix:T
+                      {
+                        TEXMF_OUTPUT_DIRECTORY =
+                          ${TEXMF_OUTPUT_DIRECTORY:-.} \iow_newline:
+                      }
+                    texlua~
+                      \g_luabridge_output_dirname_str /
+                      \g_luabridge_helper_script_filename_str
+                  }
+              }
+              {
+                texlua~
+                  \g_luabridge_output_dirname_str /
+                  \g_luabridge_helper_script_filename_str
+              }
           }
           { }
           #1
