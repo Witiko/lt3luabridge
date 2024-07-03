@@ -18,8 +18,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Run MarkdownLint
         uses: nosborn/github-action-markdown-cli@v2.0.0
-  test:
-    name: Compile example document
+  test-linux:
+    name: Compile example document with Linux
     strategy:
       fail-fast: true
       matrix:
@@ -61,11 +61,43 @@ jobs:
           set -e
           cat example.txt
           grep -q '1+2=3' example.txt
+  test-windows:
+    name: Compile example document with Windows
+    strategy:
+      fail-fast: true
+      matrix:
+        command:
+          - context                        --luatex              --nonstopmode  example.context
+          - pdflatex --shell-escape                  --interaction=nonstopmode  example.latex
+          - xelatex  --shell-escape --8bit           --interaction=nonstopmode  example.latex
+          - lualatex                                 --interaction=nonstopmode  example.latex
+          - pdftex   --shell-escape                  --interaction=nonstopmode  example.plaintex
+          - xetex    --shell-escape --8bit           --interaction=nonstopmode  example.plaintex
+          - luatex                                   --interaction=nonstopmode  example.plaintex
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: |
+            context
+            latex
+            luatex
+            scheme-minimal
+            standalone
+            xetex
+      - name: Install lt3luabridge
+        run: xetex lt3luabridge.ins
+      - name: Compile example document
+        run: ${{ matrix.command }}
   prerelease:
     name: Create artifacts and optionally prerelease the package
     needs:
       - markdownlint
-      - test
+      - test-linux
+      - test-windows
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
