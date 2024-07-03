@@ -52,8 +52,10 @@ jobs:
           packages: |
             collection-luatex
             context
+            infwarerr
             latex
             latex-bin
+            ltxcmds
             luatex
             pdftex
             pdftexcmds
@@ -100,8 +102,10 @@ jobs:
           packages: |
             collection-luatex
             context
+            infwarerr
             latex
             latex-bin
+            ltxcmds
             luatex
             pdftex
             pdftexcmds
