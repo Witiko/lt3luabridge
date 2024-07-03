@@ -53,6 +53,7 @@ jobs:
             collection-luatex
             context
             latex
+            latex-bin
             luatex
             pdftex
             scheme-minimal
@@ -99,6 +100,7 @@ jobs:
             collection-luatex
             context
             latex
+            latex-bin
             luatex
             pdftex
             scheme-minimal
@@ -135,6 +137,7 @@ jobs:
             hologo
             hypdoc
             latex
+            latex-bin
             latexmk
             scheme-basic
       - name: Typeset documentation
