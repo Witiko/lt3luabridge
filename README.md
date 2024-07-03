@@ -23,3 +23,8 @@ available as a separate package.
  [2]: https://www.ctan.org/pkg/markdown
  [3]: https://github.com/witiko/markdown/pull/141
  [4]: https://github.com/Witiko/lt3luabridge/actions
+
+## Additional information
+
+- Author: Vít Starý Novotný <witiko@mail.muni.cz>
+- License: LaTeX Project Public License (LPPL) 1.3c
