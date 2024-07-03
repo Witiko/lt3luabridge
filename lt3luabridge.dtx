@@ -397,24 +397,37 @@
 % use the current working directory (\texttt{.}) instead.
 %
 %    \begin{macrocode}
-            \str_if_eq:NNT
+            \str_if_eq:NNTF
               \g_luabridge_output_dirname_str
               \c_luabridge_default_output_dirname_str
               {
-                \sys_if_platform_unix:T
+                \sys_if_platform_windows:TF
                   {
-                    TEXMF_OUTPUT_DIRECTORY =
-                      ${TEXMF_OUTPUT_DIRECTORY:-.} \iow_newline:
+                    if~not~defined~TEXMF_OUTPUT_DIRECTORY~(
+                      texlua~
+                        \g_luabridge_helper_script_filename_str
+                    )~else~(
+                      texlua~
+                        \g_luabridge_output_dirname_str /
+                        \g_luabridge_helper_script_filename_str
+                    )
                   }
-                \sys_if_platform_windows:T
                   {
-                    @ if~not~defined~TEXMF_OUTPUT_DIRECTORY~(
-                      set~TEXMF_OUTPUT_DIRECTORY = . ) \iow_newline:
+                    \sys_if_platform_unix:T
+                      {
+                        TEXMF_OUTPUT_DIRECTORY =
+                          ${TEXMF_OUTPUT_DIRECTORY:-.} \iow_newline:
+                      }
+                    texlua~
+                      \g_luabridge_output_dirname_str /
+                      \g_luabridge_helper_script_filename_str
                   }
               }
-            texlua~
-              \g_luabridge_output_dirname_str /
-              \g_luabridge_helper_script_filename_str
+              {
+                texlua~
+                  \g_luabridge_output_dirname_str /
+                  \g_luabridge_helper_script_filename_str
+              }
           }
           { }
           #1
