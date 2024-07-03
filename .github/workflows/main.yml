@@ -45,6 +45,7 @@ jobs:
         with:
           packages: |
             collection-latex
+            collection-luatex
             context
             latex
             luatex
@@ -85,6 +86,7 @@ jobs:
         with:
           packages: |
             collection-latex
+            collection-luatex
             context
             latex
             luatex
