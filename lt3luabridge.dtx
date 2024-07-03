@@ -406,15 +406,8 @@
                     TEXMF_OUTPUT_DIRECTORY =
                       ${TEXMF_OUTPUT_DIRECTORY:-.} \iow_newline:
                   }
-                \sys_if_platform_windows:T
-                  {
-                    @echo~off \iow_newline:
-                    if~not~defined~TEXMF_OUTPUT_DIRECTORY~(
-                      set~TEXMF_OUTPUT_DIRECTORY = . ) \iow_newline:
-                  }
               }
             texlua~
-              \g_luabridge_output_dirname_str /
               \g_luabridge_helper_script_filename_str
           }
           { }
