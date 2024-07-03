@@ -138,6 +138,7 @@ jobs:
             alphalph
             biber
             biblatex
+            booktabs
             csquotes
             enumitem
             hologo
