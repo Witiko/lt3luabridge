@@ -31,6 +31,7 @@ jobs:
             booktabs
             csquotes
             enumitem
+            fancyvrb
             hologo
             hypdoc
             latex
