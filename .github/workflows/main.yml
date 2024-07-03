@@ -44,6 +44,7 @@ jobs:
         uses: teatimeguest/setup-texlive-action@v3
         with:
           packages: |
+            collection-latex
             context
             latex
             luatex
@@ -82,6 +83,7 @@ jobs:
         uses: teatimeguest/setup-texlive-action@v3
         with:
           packages: |
+            collection-latex
             context
             latex
             luatex
