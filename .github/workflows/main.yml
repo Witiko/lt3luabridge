@@ -52,9 +52,13 @@ jobs:
           packages: |
             collection-luatex
             context
+            infwarerr
             latex
+            latex-bin
+            ltxcmds
             luatex
             pdftex
+            pdftexcmds
             scheme-minimal
             standalone
             xetex
@@ -98,9 +102,13 @@ jobs:
           packages: |
             collection-luatex
             context
+            infwarerr
             latex
+            latex-bin
+            ltxcmds
             luatex
             pdftex
+            pdftexcmds
             scheme-minimal
             standalone
             xetex
@@ -130,13 +138,17 @@ jobs:
             alphalph
             biber
             biblatex
+            booktabs
             csquotes
             enumitem
+            fancyvrb
             hologo
             hypdoc
             latex
+            latex-bin
             latexmk
             scheme-basic
+            underscore
       - name: Typeset documentation
         run: latexmk lt3luabridge.dtx
       - name: Produce lt3luabridge.zip
