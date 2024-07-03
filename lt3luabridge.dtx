@@ -281,7 +281,7 @@
             \str_set:Nn
               \l_tmpa_str
               { TEXMF_OUTPUT_DIRECTORY }
-            \str_put_right:NV
+            \str_put_left:NV
               \l_tmpa_str
               \c_percent_str
             \str_put_right:NV
@@ -403,12 +403,13 @@
               {
                 \sys_if_platform_unix:T
                   {
-                    TEXMF_OUTPUT_DIRECTORY = ${TEXMF_OUTPUT_DIRECTORY:-.} ;
+                    TEXMF_OUTPUT_DIRECTORY =
+                      ${TEXMF_OUTPUT_DIRECTORY:-.} ;
                   }
                 \sys_if_platform_windows:T
                   {
-                    if~not~defined~TEXMF_OUTPUT_DIRECTORY
-                      ( set~TEXMF_OUTPUT_DIRECTORY = . ) ;
+                    if~not~defined~TEXMF_OUTPUT_DIRECTORY~(
+                      set~TEXMF_OUTPUT_DIRECTORY = . ) &&
                   }
               }
             texlua~
