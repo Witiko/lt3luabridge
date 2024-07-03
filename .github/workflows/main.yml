@@ -48,6 +48,7 @@ jobs:
             context
             latex
             luatex
+            pdftex
             scheme-minimal
             standalone
             xetex
@@ -87,6 +88,7 @@ jobs:
             context
             latex
             luatex
+            pdftex
             scheme-minimal
             standalone
             xetex
