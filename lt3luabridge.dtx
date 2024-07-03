@@ -408,8 +408,7 @@
                   }
                 \sys_if_platform_windows:T
                   {
-                    @echo~off \iow_newline:
-                    if~not~defined~TEXMF_OUTPUT_DIRECTORY~(
+                    @ if~not~defined~TEXMF_OUTPUT_DIRECTORY~(
                       set~TEXMF_OUTPUT_DIRECTORY = . ) \iow_newline:
                   }
               }
