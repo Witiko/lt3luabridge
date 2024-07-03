@@ -38,6 +38,7 @@ jobs:
             latex-bin
             latexmk
             scheme-basic
+            underscore
       - name: Typeset documentation
         run: latexmk lt3luabridge.dtx
       - name: Produce lt3luabridge.zip
