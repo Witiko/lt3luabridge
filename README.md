@@ -19,7 +19,7 @@ lt3luabridge was previously part of [the Markdown package for TeX][2], where it
 has been battle-tested since 2016. [Since 2022][3], lt3luabridge has been
 available as a separate package.
 
- [1]: http://mirrors.ctan.org/macros/latex/contrib/l3kernel/expl3.pdf
+ [1]: https://mirrors.ctan.org/macros/latex/required/l3kernel/expl3.pdf
  [2]: https://www.ctan.org/pkg/markdown
  [3]: https://github.com/witiko/markdown/pull/141
  [4]: https://github.com/Witiko/lt3luabridge/actions
