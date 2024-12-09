@@ -1,5 +1,11 @@
 # Changes
 
+## 2.2.1
+
+Continuous Integration:
+
+- Use explcheck to validate the expl3 code.
+
 ## 2.2.0 (2024-07-03)
 
 Development:
