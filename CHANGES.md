@@ -4,7 +4,8 @@
 
 Continuous Integration:
 
-- Use explcheck to validate the expl3 code.
+- Use explcheck to check expl3 code in the continuous integration.
+  (witiko/markdown#535, #30)
 
 ## 2.2.0 (2024-07-03)
 
