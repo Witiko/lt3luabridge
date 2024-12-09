@@ -18,6 +18,23 @@ jobs:
         uses: actions/checkout@v2
       - name: Run MarkdownLint
         uses: nosborn/github-action-markdown-cli@v2.0.0
+  explcheck:
+    name: Run explcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: |
+            expltools
+            scheme-minimal
+            xetex
+      - name: Install lt3luabridge
+        run: xetex lt3luabridge.ins
+      - name: Run explcheck
+        run: explcheck *.tex *.sty
   test-linux:
     name: Compile example document with Linux
     strategy:
@@ -120,6 +137,7 @@ jobs:
     name: Create artifacts and optionally prerelease the package
     needs:
       - markdownlint
+      - explcheck
       - test-linux
       - test-windows
     runs-on: ubuntu-latest
