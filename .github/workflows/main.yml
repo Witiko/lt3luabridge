@@ -31,6 +31,7 @@ jobs:
             expltools
             scheme-minimal
             xetex
+          cache: false
       - name: Install lt3luabridge
         run: xetex lt3luabridge.ins
       - name: Run explcheck
