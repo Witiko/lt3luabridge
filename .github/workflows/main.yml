@@ -34,7 +34,7 @@ jobs:
       - name: Install lt3luabridge
         run: xetex lt3luabridge.ins
       - name: Run explcheck
-        run: explcheck *.tex *.sty
+        run: explcheck --warnings-are-errors -- lt3luabridge.tex
   test-linux:
     name: Compile example document with Linux
     strategy:
