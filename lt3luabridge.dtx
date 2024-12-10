@@ -186,7 +186,7 @@
 %    \begin{macrocode}
 %<@@=luabridge>
 %<*generic-package>
-\ifx\ExplSyntaxOn\undefined
+\ifx\csname ExplSyntaxOn\endcsname\undefined
   \input expl3-generic\relax
 \fi
 \ExplSyntaxOn
