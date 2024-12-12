@@ -15,9 +15,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Run MarkdownLint
         uses: nosborn/github-action-markdown-cli@v2.0.0
+  explcheck:
+    name: Run explcheck
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install TeX Live
+        uses: teatimeguest/setup-texlive-action@v3
+        with:
+          packages: |
+            expltools
+            scheme-minimal
+            xetex
+      - name: Install lt3luabridge
+        run: xetex lt3luabridge.ins
+      - name: Run explcheck
+        run: explcheck --warnings-are-errors -- lt3luabridge.tex
   test-linux:
     name: Compile example document with Linux
     strategy:
@@ -40,7 +57,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           set -e
@@ -95,7 +112,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install TeX Live
         uses: teatimeguest/setup-texlive-action@v3
         with:
@@ -120,12 +137,13 @@ jobs:
     name: Create artifacts and optionally prerelease the package
     needs:
       - markdownlint
+      - explcheck
       - test-linux
       - test-windows
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Install dependencies
         run: |
           set -e
@@ -157,7 +175,7 @@ jobs:
           ln -s . lt3luabridge
           zip -@ lt3luabridge < RELEASE_FILES
       - name: Upload artifact lt3luabridge.zip
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lt3luabridge.zip
           path: lt3luabridge.zip
