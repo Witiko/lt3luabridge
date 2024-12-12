@@ -176,7 +176,7 @@ jobs:
           ln -s . lt3luabridge
           zip -@ lt3luabridge < RELEASE_FILES
       - name: Upload artifact lt3luabridge.zip
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lt3luabridge.zip
           path: lt3luabridge.zip
