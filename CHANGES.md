@@ -2,6 +2,11 @@
 
 ## 2.2.1
 
+Fixes:
+
+- Prevent unintended expansion of `\input` and similar commands in
+  `\luabridge_tl_set:Nn` in LuaTeX. (witiko/markdown#530, #29)
+
 Continuous Integration:
 
 - Use explcheck to check expl3 code in the continuous integration.
