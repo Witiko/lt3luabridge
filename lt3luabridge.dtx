@@ -516,11 +516,14 @@
             end~
             \exp_not:V \l_tmpa_tl
           }
-        \tl_set:Nf
+        \tl_set:No
           #1
           {
-            \lua_now:V
-              \l_tmpa_tl
+            \directlua
+              {
+                \tl_use:N
+                  \l_tmpa_tl
+              }
           }
       }
     \cs_generate_variant:Nn
