@@ -47,7 +47,7 @@
 %    }^^A
 % }
 %
-% \date{Released 2024-07-03}
+% \date{Released 2024-12-16}
 %
 % \maketitle
 %
@@ -516,11 +516,14 @@
             end~
             \exp_not:V \l_tmpa_tl
           }
-        \tl_set:Nf
+        \tl_set:No
           #1
           {
-            \lua_now:V
-              \l_tmpa_tl
+            \directlua
+              {
+                \tl_use:N
+                  \l_tmpa_tl
+              }
           }
       }
     \cs_generate_variant:Nn
@@ -559,7 +562,7 @@
 \RequirePackage{expl3}
 \ProvidesExplPackage
   {lt3luabridge}%
-  {2024-07-03}%
+  {2024-12-16}%
   {2.2.0}%
   {An expl3 package that allows you to execute Lua code in LuaTeX or any other
    TeX engine that exposes the shell}
