@@ -371,7 +371,7 @@
                 \iow_char:N \\ \iow_char:N \\ begingroup
                   \iow_char:N \\ \iow_char:N \\ ExplSyntaxOn
                   \iow_char:N \\ \iow_char:N \\ csname~
-                  msg_error:nnvv\iow_char:N \\ \iow_char:N \\ endcsname
+                  msg_error:nnvv \iow_char:N \\ \iow_char:N \\ endcsname
                     { luabridge }
                     { failed-to-execute }
                     { g_luabridge_output_dirname_str }
@@ -416,7 +416,8 @@
                     \sys_if_platform_unix:T
                       {
                         TEXMF_OUTPUT_DIRECTORY =
-                          ${TEXMF_OUTPUT_DIRECTORY:-.} \iow_newline:
+                          ${TEXMF_OUTPUT_DIRECTORY:-.}  % noqa: S204
+                          \iow_newline:
                       }
                     texlua~
                       \g_luabridge_output_dirname_str /
@@ -502,7 +503,7 @@
         \tl_set:Nx
           \l_tmpa_tl
           {
-            _ENV = setmetatable({}, {__index = _ENV})
+            _ENV = setmetatable({}, {__index = _ENV})  % noqa: S204
             local~function~print(input)
               input = tostring(input)
               local~output = {}
