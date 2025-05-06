@@ -2,6 +2,11 @@
 
 ## 2.2.2
 
+Continuous Integration:
+
+- Switch to the GitHub Action `softprops/action-gh-release` for automatic
+  pre-releases. (contributed by @muzimuzhi in expltools#82, e0dad5ad)
+
 ## 2.2.1 (2024-12-16)
 
 Fixes:
