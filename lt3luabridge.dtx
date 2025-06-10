@@ -175,6 +175,8 @@
 %   \cs{g_luabridge_error_output_filename_str}.
 % \end{variable}
 %
+% None of the variables from this section may contain spaces.
+%
 % \end{documentation}
 %
 % \begin{implementation}
@@ -264,9 +266,20 @@
 %    \end{macrocode}
 %
 % Instead of assuming the current working directory as the output directory,
-% try to determine the output directory from the environmental variable
-% \texttt{TEXMF_OUTPUT_DIRECTORY}, which is automatically defined by \TeX{}
-% engines and accessible from child processes.
+% try to determine the value of `-output-directory` from the environmental
+% variable |TEXMF_OUTPUT_DIRECTORY|, which is automatically defined by
+% \TeX{} engines and accessible from child processes.
+%
+% Note that this environmental variable is
+% \href{https://github.com/MiKTeX/miktex/issues/1630}{not currently set by
+% Mik\TeX{}}. Therefore, when shell escape is used to execute \Lua{} code,
+% the value of the variable \cs{g_luabridge_output_dirname_str} won't be
+% correctly determined by Mik\TeX{}, unless you a) manually set the
+% environmental variable |TEXMF_OUTPUT_DIRECTORY| to the same value as
+% |-output-directory| or b) do not set |-output-directory|. If neither a) or b)
+% is an option for you, you may also c) manually set the variable
+% \cs{g_luabridge_output_dirname_str} to the same value as |-output-directory|
+% before loading the package.
 %
 %    \begin{macrocode}
     \sys_if_platform_unix:TF
@@ -297,6 +310,15 @@
               { . }
           }
       }
+%    \end{macrocode}
+%
+% The constants \cs{c_luabridge_default_helper_script_filename_str} and
+% \cs{c_luabridge_default_error_output_filename_str} are derived from
+% \cs{jobname} by default. Since these constants may not contain spaces,
+% \cs{jobname} must also not contain spaces, i.e. the filenames of your .tex
+% files must not contain spaces.
+%
+%    \begin{macrocode}
     \str_const:Nx
       \c_luabridge_default_helper_script_filename_str
       { \jobname.luabridge.lua }
