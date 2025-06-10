@@ -2,10 +2,30 @@
 
 ## 2.2.2
 
-Continuous Integration:
+Continuous integration:
 
 - Switch to the GitHub Action `softprops/action-gh-release` for automatic
   pre-releases. (contributed by @muzimuzhi in expltools#82, e0dad5ad)
+
+Documentation:
+
+- Document the current limitations of the MikTeX distribution and using shell
+  escape to execute Lua code.
+  (reported by @obskyr in [witiko/markdown#566][markdown-566] and by @viocha in
+  [witiko/markdown#573][markdown-573], escalated upstream by @witiko in
+  [miktex/miktex#1630][miktex-1630], documented by @witiko in
+  [witiko/markdown#574][markdown-574] and #32)
+
+  These are the current limitations:
+  1. The filenames of your .tex files may not contain spaces, see also
+     [witiko/markdown#573][markdown-573].
+  2. If `-output-directory` is provided, it may not contain spaces and it won't be
+     automatically detected by MikTeX, see also [miktex/miktex#1630][miktex-1630].
+
+ [miktex-1630]: https://github.com/MiKTeX/miktex/issues/1630
+ [markdown-566]: https://github.com/Witiko/markdown/issues/566
+ [markdown-573]: https://github.com/Witiko/markdown/issues/573
+ [markdown-574]: https://github.com/Witiko/markdown/pull/574
 
 ## 2.2.1 (2024-12-16)
 
