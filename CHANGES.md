@@ -1,6 +1,6 @@
 # Changes
 
-## 2.2.2
+## 2.2.2 (2025-06-24)
 
 Continuous integration:
 
