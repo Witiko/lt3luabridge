@@ -1,5 +1,12 @@
 # Changes
 
+## 2.2.3 (2025-XX-XX)
+
+Continuous integration:
+
+- Rename GitHub Action `teatimeguest/setup-texlive-action@v3` to `TeX-Live/...`.
+  (reported by @pablogonz in markdown#576, fixed by @witiko in 28ba10b5)
+
 ## 2.2.2 (2025-06-24)
 
 Continuous integration:
