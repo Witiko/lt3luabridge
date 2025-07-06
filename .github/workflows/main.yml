@@ -25,7 +25,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install TeX Live
-        uses: teatimeguest/setup-texlive-action@v3
+        uses: TeX-Live/setup-texlive-action@v3
         with:
           packages: |
             expltools
@@ -64,7 +64,7 @@ jobs:
           sudo apt-get -qy update
           sudo apt-get -qy install --no-install-recommends libfontconfig1 poppler-utils ruby
       - name: Install TeX Live
-        uses: teatimeguest/setup-texlive-action@v3
+        uses: TeX-Live/setup-texlive-action@v3
         with:
           packages: |
             collection-luatex
@@ -114,7 +114,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install TeX Live
-        uses: teatimeguest/setup-texlive-action@v3
+        uses: TeX-Live/setup-texlive-action@v3
         with:
           packages: |
             collection-luatex
@@ -150,7 +150,7 @@ jobs:
           sudo apt-get -qy update
           sudo apt-get -qy install --no-install-recommends libfontconfig1 zip
       - name: Install TeX Live
-        uses: teatimeguest/setup-texlive-action@v3
+        uses: TeX-Live/setup-texlive-action@v3
         with:
           packages: |
             alphalph
