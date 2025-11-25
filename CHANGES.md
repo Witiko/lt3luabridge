@@ -7,6 +7,8 @@ Continuous integration:
 - Rename GitHub Action `teatimeguest/setup-texlive-action@v3` to `TeX-Live/...`.
   (reported by @pablogonz in markdown#576, fixed by @witiko in 28ba10b5)
 
+- Bump GitHub Action `actions/checkout` from 5 to 6. (added by @dependabot in #36)
+
 ## 2.2.2 (2025-06-24)
 
 Continuous integration:
