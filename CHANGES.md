@@ -1,13 +1,14 @@
 # Changes
 
-## 2.2.3 (2025-XX-XX)
+## 2.2.3 (2026-XX-XX)
 
 Continuous integration:
 
 - Rename GitHub Action `teatimeguest/setup-texlive-action@v3` to `TeX-Live/...`.
-  (reported by @pablogonz in markdown#576, fixed by @witiko in 28ba10b5)
-
+  (reported by @pablogonz in markdown#576, fixed in 28ba10b5)
 - Bump GitHub Action `actions/checkout` from 5 to 6. (added by @dependabot in #36)
+- Migrate from deprecated `TeX-Live/setup-texlive-action@v3` to
+  `zauguin/install-texlive@v4`. (#39, d4a2d03)
 
 ## 2.2.2 (2025-06-24)
 
