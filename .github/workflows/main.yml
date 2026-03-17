@@ -27,8 +27,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Install TeX Live
-        uses: TeX-Live/setup-texlive-action@v3
+        uses: zauguin/install-texlive@v4
         with:
+          cache_version: ${{ github.run_id }}
           packages: |
             expltools
             scheme-minimal
@@ -66,8 +67,9 @@ jobs:
           sudo apt-get -qy update
           sudo apt-get -qy install --no-install-recommends libfontconfig1 poppler-utils ruby
       - name: Install TeX Live
-        uses: TeX-Live/setup-texlive-action@v3
+        uses: zauguin/install-texlive@v4
         with:
+          cache_version: ${{ github.run_id }}
           packages: |
             collection-luatex
             context
@@ -116,8 +118,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v6
       - name: Install TeX Live
-        uses: TeX-Live/setup-texlive-action@v3
+        uses: zauguin/install-texlive@v4
         with:
+          cache_version: ${{ github.run_id }}
           packages: |
             collection-luatex
             context
@@ -152,8 +155,9 @@ jobs:
           sudo apt-get -qy update
           sudo apt-get -qy install --no-install-recommends libfontconfig1 zip
       - name: Install TeX Live
-        uses: TeX-Live/setup-texlive-action@v3
+        uses: zauguin/install-texlive@v4
         with:
+          cache_version: ${{ github.run_id }}
           packages: |
             alphalph
             biber
