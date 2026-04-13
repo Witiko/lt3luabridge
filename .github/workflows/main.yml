@@ -187,7 +187,7 @@ jobs:
           path: lt3luabridge.zip
       - name: Create a prerelease
         if: github.ref == 'refs/heads/main'
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           name: The latest version
           tag_name: latest
