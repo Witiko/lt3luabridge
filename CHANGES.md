@@ -2,6 +2,10 @@
 
 ## 2.2.3 (2026-XX-XX)
 
+Fixes:
+
+- Define unexpandable functions as protected. (expltools#201, b1e4eb9)
+
 Continuous integration:
 
 - Rename GitHub Action `teatimeguest/setup-texlive-action@v3` to `TeX-Live/...`.
@@ -11,6 +15,9 @@ Continuous integration:
   (added by @dependabot in #37 and #38)
 - Migrate from deprecated `TeX-Live/setup-texlive-action@v3` to
   `zauguin/install-texlive@v4`. (#39, d4a2d03)
+- Disable ConTeXt tests altogether. (gucci-on-fleek/context-packaging#5, 1b65187)
+- Bump GitHub Action `softprops/action-gh-release` from 2 to 3.
+  (added by @dependabot in #40)
 
 ## 2.2.2 (2025-06-24)
 
