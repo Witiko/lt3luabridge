@@ -56,7 +56,6 @@ jobs:
           - -output-directory .
         exclude:
           - command: context --luatex --nonstopmode
-            extra_options: -output-directory .
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -112,7 +111,6 @@ jobs:
           - -output-directory .
         exclude:
           - command: context --luatex --nonstopmode
-            extra_options: -output-directory .
     runs-on: windows-latest
     steps:
       - name: Checkout repository
