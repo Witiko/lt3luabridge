@@ -347,7 +347,7 @@
           \g_luabridge_error_output_filename_str
           \c_luabridge_default_error_output_filename_str
       }
-    \cs_new:Nn
+    \cs_new_protected:Nn
       \luabridge_tl_set:Nn
       {
         \iow_open:NV
@@ -515,7 +515,7 @@
   =
   { \c_luabridge_method_directlua_int }
   {
-    \cs_new:Nn
+    \cs_new_protected:Nn
       \luabridge_tl_set:Nn
       {
         \tl_set:Nn
@@ -552,7 +552,7 @@
       \lua_now:n
       { V }
   }
-\cs_new:Nn
+\cs_new_protected:Nn
   \luabridge_now:n
   {
     \luabridge_tl_set:Nn
