@@ -2,11 +2,23 @@
 
 ## 2.2.3 (2026-XX-XX)
 
-Fixes:
+### Fixes
+
+This version of lt3luabridge has fixed the following issues:
 
 - Define unexpandable functions as protected. (expltools#201, b1e4eb9)
 
-Continuous integration:
+### Documentation
+
+This version of lt3luabridge has made the following improvements to the
+documentation:
+
+- Document the earliest supported LaTeX3 version. (ed5d0d0)
+
+### Continuous integration
+
+This version of lt3luabridge has made the following changes to our continuous
+integration:
 
 - Rename GitHub Action `teatimeguest/setup-texlive-action@v3` to `TeX-Live/...`.
   (reported by @pablogonz in markdown#576, fixed in 28ba10b5)
