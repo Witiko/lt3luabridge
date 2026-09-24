@@ -18,6 +18,7 @@ Continuous integration:
 - Disable ConTeXt tests altogether. (gucci-on-fleek/context-packaging#5, 1b65187)
 - Bump GitHub Action `softprops/action-gh-release` from 2 to 3.
   (added by @dependabot in #40)
+- Bump GitHub Action `actions/checkout` from 6 to 7. (added by @dependabot in #41)
 
 ## 2.2.2 (2025-06-24)
 
