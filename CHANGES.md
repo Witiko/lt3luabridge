@@ -12,6 +12,9 @@ integration:
   The caching is unreliable and causes races between the different jobs that
   all install the same packages in parallel.
 
+- Prevent several workflows running for the same pull request / Git ref.
+  (7901591)
+
 ## 2.2.3 (2026-09-24)
 
 ### Fixes
