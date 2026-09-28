@@ -1,5 +1,17 @@
 # Changes
 
+## 2.2.3 (202X-XX-XX)
+
+### Continuous integration
+
+This version of lt3luabridge has made the following changes to our continuous
+integration:
+
+- Disable caching in `zauguin/install-texlive@v4`. (1c80660)
+
+  The caching is unreliable and causes races between the different jobs that
+  all install the same packages in parallel.
+
 ## 2.2.3 (2026-09-24)
 
 ### Fixes
