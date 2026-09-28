@@ -29,7 +29,7 @@ jobs:
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
-          cache_version: ${{ github.run_id }}
+          cache: false
           packages: |
             expltools
             scheme-minimal
@@ -68,7 +68,7 @@ jobs:
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
-          cache_version: ${{ github.run_id }}
+          cache: false
           packages: |
             collection-luatex
             context
@@ -118,7 +118,7 @@ jobs:
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
-          cache_version: ${{ github.run_id }}
+          cache: false
           packages: |
             collection-luatex
             context
@@ -155,7 +155,7 @@ jobs:
       - name: Install TeX Live
         uses: zauguin/install-texlive@v4
         with:
-          cache_version: ${{ github.run_id }}
+          cache: false
           packages: |
             alphalph
             biber
